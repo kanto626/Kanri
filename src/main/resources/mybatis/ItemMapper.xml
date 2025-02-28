@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.mapper.ItemMapper">
+	<!-- items テーブルのカラムを Item クラスのフィールドにマッピング -->
+	<resultMap id="itemMap" type="com.example.app.domain.Item">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="purchased_at" property="purchasedAt" />
+		<result column="note" property="note" />
+	</resultMap>
+
+	<!-- 全件取得 -->
+	<select id="selectAll" resultMap="itemMap">
+		SELECT id, name, purchased_at, note FROM items
+	</select>
+</mapper>
