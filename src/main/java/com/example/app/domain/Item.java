@@ -12,5 +12,7 @@ public class Item {
 	private String name;
 	private Date purchasedAt;
 	private String note;
+	
+	// テーブル連携時
 	private Integer amount;
 }
