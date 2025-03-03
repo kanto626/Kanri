@@ -1,6 +1,6 @@
 package com.example.app.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -10,9 +10,9 @@ public class Item {
 
 	private Integer id;
 	private String name;
-	private Date purchasedAt;
+	private LocalDate purchasedAt;
 	private String note;
-	
+
 	// テーブル連携時
 	private Integer amount;
 }
