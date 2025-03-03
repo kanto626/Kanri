@@ -1,6 +1,7 @@
 package com.example.app.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.Data;
 
@@ -15,4 +16,5 @@ public class Item {
 
 	// テーブル連携時
 	private Integer amount;
+	private List<Placement> placementList; // 配置情報を保持
 }
