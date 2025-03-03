@@ -12,6 +12,11 @@
 
 	<!-- 全件取得 -->
 	<select id="selectAll" resultMap="itemMap">
-		SELECT id, name, purchased_at, note FROM items
+		SELECT i.id, i.name, i.purchased_at, i.note,
+		COALESCE(SUM(p.amount), 0) AS amount
+		FROM items i
+		LEFT JOIN placements p ON i.id = p.item_id
+		GROUP BY i.id, i.name, i.purchased_at, i.note
+		ORDER BY i.name
 	</select>
 </mapper>
