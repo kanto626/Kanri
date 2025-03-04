@@ -11,6 +11,7 @@ import com.example.app.mapper.ItemMapper;
 import com.example.app.mapper.PlacementMapper;
 
 import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class ItemServiceImpl implements ItemService {
 
 		// 資材の総数
 		int amount = 0;
-		for(Placement p : list) {
+		for (Placement p : list) {
 			amount += p.getAmount();
 		}
 
@@ -41,5 +42,10 @@ public class ItemServiceImpl implements ItemService {
 		item.setPlacementList(placementMapper.selectByItemId(id));
 		item.setAmount(amount);
 		return item;
+	}
+
+	@Override
+	public List<Item> getByRoomId(String roomId) {
+		return itemMapper.selectByRoomId(roomId);
 	}
 }

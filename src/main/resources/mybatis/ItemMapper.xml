@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.ItemMapper">
-<select id="selectAll" resultType="Item">
-		SELECT i.id, i.name, SUM(p.amount) AS amount, i.purchased_at, i.note
+	<select id="selectAll" resultType="Item">
+		SELECT i.id, i.name,
+		SUM(p.amount) AS amount, i.purchased_at, i.note
 		FROM placements AS p
 		JOIN items AS i
 		ON i.id = p.item_id
@@ -11,10 +12,20 @@
 		ORDER BY i.name
 	</select>
 
-	<select id="selectById" resultType="Item"
-	 parameterType="int">
-		SELECT * FROM items WHERE id = #{id}
+	<select id="selectById" resultType="Item" parameterType="int">
+		SELECT *
+		FROM items WHERE id = #{id}
 	</select>
 
+	<select id="selectByRoomId" resultType="Item"
+		parameterType="string">
+		SELECT i.id, i.name, p.amount, i.purchased_at, i.note
+		FROM placements AS p
+		JOIN items AS i
+		ON i.id = p.item_id
+		WHERE p.room_id
+		= #{roomId}
+		ORDER BY i.name
+	</select>
 
 </mapper>
