@@ -1,9 +1,14 @@
 <!doctype html>
-<html>
-<head th:replace="~{parts/common::head}"></head>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+ <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<head>
+	<meta charset="UTF-8">
+	<title>itemList</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
 	<div class="container">
-		 <div th:replace="~{parts/common::header(${item.name})}"></div>
+		
 
 		<div class="row">
 			<div class="col">
