@@ -14,7 +14,7 @@
 			<div class="col">
 				<form action="">
 					<select class="form-control" name="roomId">
-						<option value="ALL">全ての備品を表示</option>
+						<option value="ALL">全ての資材を表示</option>
 						<option th:each="room : ${roomList}" th:text="${room.name + 'の資材を表示'}" th:value="${room.id}"
 							th:selected="${room.id.equals(roomId)}"></option>
 					</select>
