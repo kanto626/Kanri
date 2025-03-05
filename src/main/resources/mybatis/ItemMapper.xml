@@ -11,6 +11,16 @@
 		GROUP BY p.item_id
 		ORDER BY i.name
 	</select>
+	<select id="selectLimited" resultType="Item">
+		SELECT i.id, i.name,
+		SUM(p.amount) AS amount, i.purchased_at, i.note
+		FROM placements AS p
+		JOIN items AS i
+		ON i.id = p.item_id
+		GROUP BY p.item_id
+		ORDER BY i.name
+		LIMIT #{offset},#{num}
+	</select>
 
 	<select id="selectById" resultType="Item" parameterType="int">
 		SELECT *
@@ -27,5 +37,18 @@
 		= #{roomId}
 		ORDER BY i.name
 	</select>
+	<select id="selectLimitedByRoomId" resultType="Item"
+		parameterType="string">
+		SELECT i.id, i.name, p.amount, i.purchased_at, i.note
+		FROM placements AS p
+		JOIN items AS i
+		ON i.id = p.item_id
+		WHERE p.room_id
+		= #{roomId}
+		ORDER BY i.name
+		LIMIT #{offset},#{num}
+	</select>
+
+
 
 </mapper>
