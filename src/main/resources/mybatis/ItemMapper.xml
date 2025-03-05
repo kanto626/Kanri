@@ -37,8 +37,7 @@
 		= #{roomId}
 		ORDER BY i.name
 	</select>
-	<select id="selectLimitedByRoomId" resultType="Item"
-		parameterType="string">
+	<select id="selectLimitedByRoomId" resultType="Item">
 		SELECT i.id, i.name, p.amount, i.purchased_at, i.note
 		FROM placements AS p
 		JOIN items AS i
