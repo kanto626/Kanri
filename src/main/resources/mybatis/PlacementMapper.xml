@@ -7,14 +7,28 @@
 		<result column="name" property="room.name" />
 	</resultMap>
 
-	<select id="selectByItemId"  resultMap="roomMap" parameterType="int">
+	<select id="selectByItemId" resultMap="roomMap"
+		parameterType="int">
 		SELECT r.name, p.amount
 		FROM placements AS p
-		JOIN rooms AS r
+		JOIN rooms AS
+		r
 		ON p.room_id = r.id
 		WHERE p.item_id = #{itemId}
 		ORDER BY r.id
 	</select>
+
+	<select id="countDistinctByItemId" resultType="long">
+		SELECT
+		COUNT(DISTINCT item_id) FROM placements
+	</select>
+
+	<select id="countByRoomId" resultType="long"
+		parameterType="string">
+		SELECT COUNT(*) FROM placements
+		WHERE room_id = #{roomId}
+	</select>
+
 
 </mapper>
 
