@@ -38,7 +38,7 @@ public class StaffController {
 			itemList = itemService.getByRoomIdAndPage(roomId, page);
 			totalPages = itemService.getTotlaPagesByRoomId(roomId);
 		} else {
-			itemList = itemService.getAll();
+			itemList = itemService.getByPage(page);
 			totalPages = itemService.getTotalPages();
 		}
 

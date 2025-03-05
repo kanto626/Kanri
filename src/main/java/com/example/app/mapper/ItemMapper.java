@@ -19,5 +19,5 @@ public interface ItemMapper {
 	List<Item> selectLimited(@Param("offset") int offset, @Param("num") int num);
 
 	List<Item> selectLimitedByRoomId(@Param("roomId") String roomId, @Param("offset") int offset,
-			@Param("num") int numPerPage);
+			@Param("num") int num);
 }

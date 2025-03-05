@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-	private int numPerPage = 5;
+	private int numPerPage = 10;
 
 	private final ItemMapper itemMapper;
 	private final PlacementMapper placementMapper;
