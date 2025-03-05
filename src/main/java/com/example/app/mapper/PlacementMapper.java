@@ -11,4 +11,10 @@ public interface PlacementMapper {
 
 	// 備品IDを元に、配置情報(場所名と数量)のリストを返す
 	List<Placement> selectByItemId(int itemId);
+
+	Long countDistinctByItemId();
+
+	Long countByRoomId(String roomId);
+
+	
 }
