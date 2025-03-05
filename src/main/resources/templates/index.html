@@ -49,6 +49,14 @@
 		</div><!-- /.row -->
 	</div><!-- /.container -->
 	<script th:src="@{js/bootstrap.bundle.min.js}"></script>
+	<script>
+		// select要素変更時に送信処理
+		document
+			.querySelector('select')
+			.addEventListener('change', () => {
+				document.querySelector('form').submit();
+			});
+	</script>
 </body>
 
 </html>
