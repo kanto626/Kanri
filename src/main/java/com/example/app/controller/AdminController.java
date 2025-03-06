@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.app.service.ItemService;
 
@@ -27,6 +28,17 @@ public class AdminController {
 		model.addAttribute("totalPages", itemService.getTotalPages());
 
 		return ("admin/index");
+	}
+
+	@GetMapping("/delete")
+	public String delete(
+			@RequestParam(name = "id", required = false) Integer id,
+			RedirectAttributes rd) { // メッセージを渡すための RedirectAttributes
+		if (id != null) {
+			itemService.deleteById(id);
+			rd.addFlashAttribute("statusMessage", "資材情報を削除しました。");
+		}
+		return "redirect:/admin";
 	}
 
 }

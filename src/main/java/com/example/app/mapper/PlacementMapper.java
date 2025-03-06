@@ -18,4 +18,6 @@ public interface PlacementMapper {
 	// 場所ID によって絞り込まれた、配置情報の件数を返す
 	Long countByRoomId(String roomId);
 
+	// 資材ID を元に、placements テーブルからデータの削除を行う
+	void deleteByItemId(int itemId);
 }

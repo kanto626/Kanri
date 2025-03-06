@@ -22,4 +22,7 @@ public interface ItemMapper {
 	// 既存の「selectByRoomId」にLIMIT 句が追加された付加されたもの
 	List<Item> selectLimitedByRoomId(@Param("roomId") String roomId, @Param("offset") int offset,
 			@Param("num") int num);
+	
+	// 資材ID を元に、items テーブルからデータの削除を行う
+	void deleteById(int id);
 }

@@ -29,7 +29,10 @@
 		WHERE room_id = #{roomId}
 	</select>
 
-
+	<delete id="deleteByItemId" parameterType="int">
+		DELETE FROM placements
+		WHERE item_id = #{itemId};
+	</delete>
 </mapper>
 
 

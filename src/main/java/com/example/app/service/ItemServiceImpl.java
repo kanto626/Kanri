@@ -87,4 +87,10 @@ public class ItemServiceImpl implements ItemService {
 		int totalCount = placementMapper.countByRoomId(roomId).intValue();
 		return (int) Math.ceil((double) totalCount / numPerPage);
 	}
+
+	@Override
+	public void deleteById(int id) {
+		itemMapper.deleteById(id);
+		placementMapper.deleteByItemId(id);
+	}
 }
