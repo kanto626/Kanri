@@ -21,7 +21,7 @@
 					<dt class="mb-1">配置</dt>
 					<dd>
 						<p th:if="*{#lists.size(placementList)} <= 0" th:text="在庫はありません。"></p>
-						<table th:if="*{#lists.size(placementList)} > 0" class="table table-bordered">
+						<table th:if="*{#lists.size(placementList)} > 0" class="table table-bordered border-success">
 							<thead>
 								<tr>
 									<th>場所</th>
