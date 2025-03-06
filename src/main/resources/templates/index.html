@@ -46,14 +46,13 @@
 						<!--/* 前のページへ */-->
 						<th:block th:switch="${page}">
 							<li th:case="1" class="page-item disabled">
-								<a class="page-link" href="" aria-label="前のページへ">
-									<span aria-hidden="true">&laquo;</span>
+								<a class="page-link" href="">
+									&laquo;
 								</a>
 							</li>
 							<li th:case="*" class="page-item">
-								<a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}"
-									aria-label="前のページへ">
-									<span aria-hidden="true">&laquo;</span>
+								<a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">
+									&laquo;
 								</a>
 							</li>
 						</th:block>
@@ -75,14 +74,13 @@
 						<!--/* 次のページへ */-->
 						<th:block th:switch="${page}">
 							<li th:case="${totalPages}" class="page-item disabled">
-								<a class="page-link" href="" aria-label="次のページへ">
-									<span aria-hidden="true">&raquo;</span>
+								<a class="page-link" href="">
+									&raquo;
 								</a>
 							</li>
 							<li th:case="*" class="page-item">
-								<a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}"
-									aria-label="次のページへ">
-									<span aria-hidden="true">&raquo;</span>
+								<a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">
+									&raquo;
 								</a>
 							</li>
 						</th:block>
