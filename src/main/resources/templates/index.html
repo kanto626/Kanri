@@ -17,10 +17,14 @@
 						<option value="ALL">全ての資材を表示</option>
 						<option th:each="room : ${roomList}" th:text="${room.name + 'の資材を表示'}" th:value="${room.id}"
 							th:selected="${room.id.equals(roomId)}"></option>
+						<!--/* 1.roomList から room を1つずつ取得し、<option> を生成
+							   2.選択肢の表示テキストを room.name + の資材を表示 に設定
+							   3.選択肢の value (送信される値) に room.id を設定
+							   4.r.oomId と一致する room.id を デフォルトで選択状態 にする*/-->
 					</select>
 				</form>
 
-				<table class="table table-bordered mt-2">
+				<table class="table table-bordered border-success mt-2">
 					<thead>
 						<tr>
 							<th>品名</th>
