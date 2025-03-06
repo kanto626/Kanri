@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container">
+		<div th:replace="~{parts/common::admin-header('資材リスト')}"></div>
+
+		<div class="row">
+			<div class="col">
+				<a th:href="@{/admin/add}" class="btn btn-primary mt-2 mb-3">資材の追加</a>
+				<table class="table table-bordered border-success">
+					<thead>
+						<tr>
+							<th>品名</th>
+							<th>総量</th>
+							<th>購入日</th>
+							<th>備考</th>
+							<th>編集</th>
+							<th>削除</th>
+						</tr>
+					</thead>
+					<tobdy>
+						<tr th:each="item : ${itemList}" th:object="${item}">
+							<td th:text="*{name}"></td>
+							<td th:text="*{amount}"></td>
+							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
+							<td th:text="*{note}"></td>
+							<td><a th:href="@{/admin/edit(id=*{id})}" class="btn btn-warning"><i class="bi bi-pencil"></i></a></td>
+							<td><a th:href="@{/admin/delete(id=*{id})}" class="btn btn-danger delete"><i class="bi bi-trash3"></i></a></td>
+						</tr>
+					</tobdy>
+				</table>
+
+				<!-- ページ番号 -->
+				<!--/* 2ページ以上の場合に表示 */-->
+				<nav th:if="${totalPages >= 2}">
+					<ul class="pagination">
+						<!--/* 前のページへ */-->
+						<th:block th:switch="${page}">
+							<li th:case="1" class="page-item disabled">
+								<a class="page-link" href="#">
+									&laquo;
+								</a>
+							</li>
+							<li th:case="*" class="page-item">
+								<a class="page-link" th:href="@{/admin(page=${page - 1})}">
+									&laquo;
+								</a>
+							</li>
+						</th:block>
+
+						<!--/* 各ページ */-->
+						<th:block th:each="index : ${#numbers.sequence(1, totalPages)}">
+							<th:block th:switch="${index}">
+								<li th:case="${page}" class="page-item active">
+									<a class="page-link" href="#" th:text="${index}"></a>
+								</li>
+								<li th:case="*" class="page-item">
+									<a class="page-link" th:href="@{/admin(page=${index})}" th:text="${index}"></a>
+								</li>
+							</th:block>
+						</th:block>
+
+						<!--/* 次のページへ */-->
+						<th:block th:switch="${page}">
+							<li th:case="${totalPages}" class="page-item disabled">
+								<a class="page-link" href="#">
+									>&raquo;
+								</a>
+							</li>
+							<li th:case="*" class="page-item">
+								<a class="page-link" th:href="@{/admin(page=${page + 1})}">
+									&raquo;
+								</a>
+							</li>
+						</th:block>
+					</ul>
+				</nav>
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script>
+		// 削除操作の確認
+		document
+			.querySelectorAll('.delete')
+			.forEach(button => {
+				button.addEventListener('click', e => {
+					if (!confirm('本当に削除しますか？')) {
+						e.preventDefault();
+					}
+				});
+			});
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			document.querySelectorAll('.btn-warning, .btn-danger').forEach(button => {
+				button.addEventListener("mouseenter", function () {
+					let row = this.closest("tr");
+
+					// 編集ボタン (btn-warning) の場合
+					if (this.classList.contains("btn-warning")) {
+						row.style.backgroundColor = "#ffeb99"; // 薄い黄色
+					}
+
+					// 削除ボタン (btn-danger) の場合
+					if (this.classList.contains("btn-danger")) {
+						row.style.backgroundColor = "#ff9999"; // 薄い赤
+					}
+				});
+
+				button.addEventListener("mouseleave", function () {
+					let row = this.closest("tr");
+					row.style.backgroundColor = ""; // 元の色に戻す
+				});
+			});
+		});
+	</script>
+
+
+</body>
+
+</html>
