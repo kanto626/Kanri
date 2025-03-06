@@ -10,6 +10,10 @@
 		<div class="row">
 			<div class="col">
 				<a th:href="@{/admin/add}" class="btn btn-primary mt-2 mb-3">資材の追加</a>
+				<!-- 削除メッセージを表示 -->
+				<div th:if="${statusMessage}" class="alert alert-success">
+					<p th:text="${statusMessage}"></p>
+				</div>
 				<table class="table table-bordered border-success">
 					<thead>
 						<tr>
@@ -27,15 +31,17 @@
 							<td th:text="*{amount}"></td>
 							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
 							<td th:text="*{note}"></td>
-							<td><a th:href="@{/admin/edit(id=*{id})}" class="btn btn-warning"><i class="bi bi-pencil"></i></a></td>
-							<td><a th:href="@{/admin/delete(id=*{id})}" class="btn btn-danger delete"><i class="bi bi-trash3"></i></a></td>
+							<td><a th:href="@{/admin/edit(id=*{id})}" class="btn btn-warning"><i
+										class="bi bi-pencil"></i></a></td>
+							<td><a th:href="@{/admin/delete(id=*{id})}" class="btn btn-danger delete"><i
+										class="bi bi-trash3"></i></a></td>
 						</tr>
 					</tobdy>
 				</table>
 
 				<!-- ページ番号 -->
 				<!--/* 2ページ以上の場合に表示 */-->
-				<nav th:if="${totalPages >= 2}">
+				<nav th:if="${totalPages >= 2}" class="d-flex justify-content-center">
 					<ul class="pagination">
 						<!--/* 前のページへ */-->
 						<th:block th:switch="${page}">
