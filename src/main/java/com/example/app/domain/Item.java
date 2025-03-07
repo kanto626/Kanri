@@ -3,6 +3,10 @@ package com.example.app.domain;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -10,8 +14,15 @@ import lombok.Data;
 public class Item {
 
 	private Integer id;
+	
+	@NotBlank
+	@Size(max = 30)
 	private String name;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate purchasedAt;
+	
+	@Size(max = 255)
 	private String note;
 
 	// テーブル連携時
