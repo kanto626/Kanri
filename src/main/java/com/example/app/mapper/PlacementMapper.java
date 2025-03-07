@@ -20,4 +20,7 @@ public interface PlacementMapper {
 
 	// 資材ID を元に、placements テーブルからデータの削除を行う
 	void deleteByItemId(int itemId);
+
+	// placements テーブルに配置情報を追加する
+	void insert(Placement placement);
 }

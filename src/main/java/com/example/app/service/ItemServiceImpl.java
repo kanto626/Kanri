@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.domain.Item;
 import com.example.app.domain.Placement;
+import com.example.app.domain.Room;
 import com.example.app.mapper.ItemMapper;
 import com.example.app.mapper.PlacementMapper;
 
@@ -51,6 +52,8 @@ public class ItemServiceImpl implements ItemService {
 		return itemMapper.selectByRoomId(roomId);
 	}
 
+	// ページネーション関連 --------------------------------------------
+
 	@Override
 	public List<Item> getByPage(int page) {
 		return itemMapper.selectLimited(getOffset(page), numPerPage);
@@ -88,9 +91,25 @@ public class ItemServiceImpl implements ItemService {
 		return (int) Math.ceil((double) totalCount / numPerPage);
 	}
 
+	// CRUD処理関連 -----------------------------------------------------
+
 	@Override
 	public void deleteById(int id) {
 		itemMapper.deleteById(id);
 		placementMapper.deleteByItemId(id);
+	}
+
+	@Override
+	public void add(Item item) {
+		itemMapper.insert(item);
+
+		// 配置情報の追加
+		var placement = new Placement();
+		placement.setItem(item);
+		placement.setRoom(new Room());
+		placement.getRoom().setId("S100");
+		placement.setAmount(item.getAmount());
+		placementMapper.insert(placement);
+
 	}
 }

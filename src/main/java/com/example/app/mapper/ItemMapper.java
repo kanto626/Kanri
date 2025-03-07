@@ -25,4 +25,7 @@ public interface ItemMapper {
 	
 	// 資材ID を元に、items テーブルからデータの削除を行う
 	void deleteById(int id);
+
+	// items テーブルに資材情報を追加する
+	void insert(Item item);
 }

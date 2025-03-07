@@ -33,5 +33,8 @@ public interface ItemService {
 	
 	// 資材ID を元に、資材情報の削除を⾏う
 	void deleteById(int id);
+
+	// 資材を登録し、倉庫に配置する
+	void add(Item item);
 	
 }

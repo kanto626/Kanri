@@ -33,6 +33,11 @@
 		DELETE FROM placements
 		WHERE item_id = #{itemId};
 	</delete>
+	
+	<insert id="insert" parameterType="Placement">
+		INSERT INTO placements (item_id, room_id, amount)
+		VALUES (#{item.id}, #{room.id}, #{amount});
+	</insert>
 </mapper>
 
 

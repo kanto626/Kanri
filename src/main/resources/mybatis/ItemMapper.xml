@@ -38,19 +38,29 @@
 		ORDER BY i.name
 	</select>
 	<select id="selectLimitedByRoomId" resultType="Item">
-		SELECT i.id, i.name, p.amount, i.purchased_at, i.note
+		SELECT i.id,
+		i.name, p.amount, i.purchased_at, i.note
 		FROM placements AS p
-		JOIN items AS i
+		JOIN items
+		AS i
 		ON i.id = p.item_id
 		WHERE p.room_id
 		= #{roomId}
 		ORDER BY i.name
-		LIMIT #{offset},#{num}
+		LIMIT
+		#{offset},#{num}
 	</select>
 
-<delete id="deleteById" parameterType="int">
-		DELETE FROM items WHERE id = #{id};
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM items WHERE id
+		= #{id};
 	</delete>
 
+	<insert id="insert" parameterType="Item" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO items (name, purchased_at, note)
+		VALUES
+		(#{name}, #{purchasedAt}, #{note});
+	</insert>
 
 </mapper>
