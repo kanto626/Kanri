@@ -4,48 +4,53 @@
 <head th:replace="~{parts/common::head}"></head>
 
 <body>
-	<div class="container">
-		<div th:replace="~{parts/common::header(${item.name})}"></div>
-
-		<div class="row">
-			<div th:object="${item}" class="col col-md-6 col-lg-4 col-xl-3">
-				<dl class="d-flex">
-					<dt class="me-2">購入日</dt>
-					<dd th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></dd>
-				</dl>
-				<dl class="d-flex">
-					<dt class="me-2">備考</dt>
-					<dd th:text="*{note}"></dd>
-				</dl>
-				<dl>
-					<dt class="mb-1">配置</dt>
-					<dd>
-						<p th:if="*{#lists.size(placementList)} <= 0" th:text="在庫はありません。"></p>
-						<table th:if="*{#lists.size(placementList)} > 0" class="table table-bordered border-success">
-							<thead>
-								<tr>
-									<th>場所</th>
-									<th>数量</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="placement : *{placementList}">
-									<td th:text="${placement.room.name}"></td>
-									<td th:text="${placement.amount}"></td>
-								</tr>
-								<tr class="bg-primary-light h6">
-									<td>合計</td>
-									<td th:text="*{amount}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</dd>
-				</dl>
-				<a class="btn btn-primary" th:href="@{/}">戻る</a>
-			</div><!-- /.col -->
-		</div><!-- /.row -->
-	</div><!-- /.container -->
-	<script th:src="@{js/bootstrap.bundle.min.js}"></script>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h2 th:text="${item.name} + ' の詳細'" class="mb-0"></h2>
+            </div>
+            <div class="card-body">
+                <div th:object="${item}" class="col-md-8 mx-auto">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-end">購入日</dt>
+                        <dd class="col-sm-8" th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4 text-end">備考</dt>
+                        <dd class="col-sm-8" th:text="*{note}"></dd>
+                    </dl>
+                    <dl>
+                        <dt class="fw-bold">配置</dt>
+                        <dd>
+                            <p th:if="*{#lists.isEmpty(placementList)}" class="text-danger">在庫なし</p>
+                            <table th:if="*{!#lists.isEmpty(placementList)}" class="table table-bordered table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th>場所</th>
+                                        <th>数量</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="placement : *{placementList}">
+                                        <td th:text="${placement.room.name}"></td>
+                                        <td th:text="${placement.amount}"></td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <td>合計</td>
+                                        <td th:text="*{amount}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </dd>
+                    </dl>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-secondary" th:href="@{/}">戻る</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>

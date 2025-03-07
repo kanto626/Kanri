@@ -1,104 +1,64 @@
-<!doctype html>
+<!doctype html> 
 <html>
 
 <head th:replace="~{parts/common::head}"></head>
 
 <body>
-	<div class="container">
-		<div th:replace="~{parts/common::header(${roomName})}"></div>
-		<div class="row">
-			<div class="col">
-				<form action="">
-					<select class="form-control" name="roomId">
-						<option value="ALL">全ての資材を表示</option>
-						<option th:each="room : ${roomList}" th:text="${room.name + 'の資材を表示'}" th:value="${room.id}"
-							th:selected="${room.id.equals(roomId)}"></option>
-						<!--/* 1.roomList から room を1つずつ取得し、<option> を生成
-							   2.選択肢の表示テキストを room.name + の資材を表示 に設定
-							   3.選択肢の value (送信される値) に room.id を設定
-							   4.r.oomId と一致する room.id を デフォルトで選択状態 にする*/-->
-					</select>
-				</form>
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
+            </div>
+            <div class="card-body">
+                <form action="">
+                    <select class="form-select mb-3" name="roomId" onchange="this.form.submit()">
+                        <option value="ALL">全ての副資材を表示</option>
+                        <option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
+                            th:selected="${room.id.equals(roomId)}"></option>
+                    </select>
+                </form>
+                
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>品名</th>
+                            <th>総量</th>
+                            <th>購入日</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${itemList}" th:object="${item}">
+                            <td><a th:href="@{/show(id=*{id})}" th:text="*{name}"></a></td>
+                            <td th:text="*{amount}"></td>
+                            <td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
+                            <td th:text="*{note}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!-- ページネーション -->
+                <nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
+                    <ul class="pagination pagination-lg">
+                        <li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
+                            <a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">&laquo;</a>
+                        </li>
+                        
+                        <li th:each="index : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${index == page} ? 'active' : ''" class="page-item">
+                            <a class="page-link" th:href="@{/(page=${index}, roomId=${roomId})}" th:text="${index}"></a>
+                        </li>
+                        
+                        <li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
+                            <a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 
-				<table class="table table-bordered border-success mt-2">
-					<thead>
-						<tr>
-							<th>品名</th>
-							<th>総量</th>
-							<th>購入日</th>
-							<th>備考</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="item : ${itemList}" th:object="${item}">
-							<td><a th:href="@{/show(id=*{id})}" th:text="*{name}"></a></td>
-							<td th:text="*{amount}"></td>
-							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
-							<td th:text="*{note}"></td>
-						</tr>
-					</tbody>
-				</table>
-
-				<!--/* ページ番号 */-->
-				<!--/* 2ページ以上の場合に表示 */-->
-				<nav th:if="${totalPages >= 2}">
-					<ul class="pagination">
-						<!--/* 前のページへ */-->
-						<th:block th:switch="${page}">
-							<li th:case="1" class="page-item disabled">
-								<a class="page-link" href="">
-									&laquo;
-								</a>
-							</li>
-							<li th:case="*" class="page-item">
-								<a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">
-									&laquo;
-								</a>
-							</li>
-						</th:block>
-
-						<!--/* 各ページ */-->
-						<th:block th:each="index : ${#numbers.sequence(1, totalPages)}">
-							<th:block th:switch="${index}">
-								<li th:case="${page}" class="page-item active">
-									<a class="page-link" href="" th:text="${index}"></a>
-								</li>
-								<li th:case="*" class="page-item">
-									<a class="page-link" th:href="@{/(page=${index}, roomId=${roomId})}"
-										th:text="${index}"></a>
-								</li>
-							</th:block>
-						</th:block>
-
-
-						<!--/* 次のページへ */-->
-						<th:block th:switch="${page}">
-							<li th:case="${totalPages}" class="page-item disabled">
-								<a class="page-link" href="">
-									&raquo;
-								</a>
-							</li>
-							<li th:case="*" class="page-item">
-								<a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">
-									&raquo;
-								</a>
-							</li>
-						</th:block>
-					</ul>
-				</nav>
-
-			</div><!-- /.col -->
-		</div><!-- /.row -->
-	</div><!-- /.container -->
-	<script th:src="@{js/bootstrap.bundle.min.js}"></script>
-	<script>
-		// select要素変更時に送信処理
-		document
-			.querySelector('select')
-			.addEventListener('change', () => {
-				document.querySelector('form').submit();
-			});
-	</script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>

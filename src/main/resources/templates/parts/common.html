@@ -8,12 +8,13 @@
   <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
-  <title>資材管理システム</title>
+
+  <title>副資材管理システム</title>
 </head>
 <body>
 
 <div th:fragment="header(itemName)" class="d-flex justify-content-between py-3">
-  <h1 class="h2">資材リスト
+  <h1 class="h2">副資材リスト
     <span th:if="${itemName} != null" class="ms-2 h4">【[[${itemName}]]】</span>
   </h1>
   <div class="mt-2">

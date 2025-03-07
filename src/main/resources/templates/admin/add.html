@@ -2,51 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{parts/common::head}"></head>
 <body>
-<div class="container">
-  <div th:replace="~{parts/common::admin-header('資材登録')}"></div>
+<div class="container mt-4">
+  <div th:replace="~{parts/common::admin-header('副資材登録')}"></div>
+  
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+          <h4>副資材登録フォーム</h4>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/admin/add}" method="post" th:object="${item}">
+            <div class="mb-3">
+              <label for="formName" class="form-label">品名</label>
+              <input th:field="*{name}" type="text" id="formName" class="form-control">
+              <div class="text-danger small" th:errors="*{name}"></div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="formAmount" class="form-label">総量</label>
+              <input th:field="*{amount}" type="number" id="formAmount" min="0" max="999" step="1" class="form-control">
+              <div class="text-danger small" th:errors="*{amount}"></div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="formDate" class="form-label">購入日</label>
+              <input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+              <label for="formNote" class="form-label">備考</label>
+              <textarea th:field="*{note}" id="formNote" class="form-control" rows="3"></textarea>
+              <div class="text-danger small" th:errors="*{note}"></div>
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">登録</button>
+              <a th:href="@{/admin(page=${session.pageNum})}" class="btn btn-outline-secondary ms-2">キャンセル</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <div class="row">
-    <div class="col">
-      <form th:action="@{/admin/add}" method="post" th:object="${item}">
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <th><label for="formName">品名</label></th>
-              <td>
-                <p th:errors="*{name}"></p>
-                <input th:field="*{name}" type="text" id="formName" class="form-control">
-              </td>
-            </tr>
-            <tr>
-              <th><label for="formAmount">総量</label></th>
-              <td>
-                <p th:errors="*{amount}"></p>
-                <input th:field="*{amount}" type="number" id="formAmount" min="0" max="999" step="1" class="form-control">
-              </td>
-            </tr>
-            <tr>
-              <th><label for="formDate">購入日</label></th>
-              <td><input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control"></td>
-            </tr>
-            <tr>
-              <th><label for="formNote">備考</label></th>
-              <td>
-                <p th:errors="*{note}"></p>
-                <textarea th:field="*{note}" id="formNote" class="form-control"></textarea>
-              </td>
-            </tr>
-            <tr>
-              <th colspan="2">
-                <input type="submit" class="btn btn-primary" value="登録">
-                <a th:href="@{/admin(page=${session.pageNum})}" class="btn btn-default">キャンセル</a>
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-    </div><!-- /.col -->
-  </div><!-- /.row -->
-</div><!-- /.container -->
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
