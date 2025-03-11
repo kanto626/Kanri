@@ -1,64 +1,78 @@
-<!doctype html> 
+<!doctype html>
 <html>
 
 <head th:replace="~{parts/common::head}"></head>
 
 <body>
-    <div class="container mt-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white text-center">
-                <h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
-            </div>
-            <div class="card-body">
-                <form action="">
-                    <select class="form-select mb-3" name="roomId" onchange="this.form.submit()">
-                        <option value="ALL">全ての副資材を表示</option>
-                        <option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
-                            th:selected="${room.id.equals(roomId)}"></option>
-                    </select>
-                </form>
-                
-                <table class="table table-bordered table-hover text-center align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>品名</th>
-                            <th>総量</th>
-                            <th>購入日</th>
-                            <th>備考</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="item : ${itemList}" th:object="${item}">
-                            <td><a th:href="@{/show(id=*{id})}" th:text="*{name}"></a></td>
-                            <td th:text="*{amount}"></td>
-                            <td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
-                            <td th:text="*{note}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <!-- ページネーション -->
-                <nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
-                    <ul class="pagination pagination-lg">
-                        <li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
-                            <a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">&laquo;</a>
-                        </li>
-                        
-                        <li th:each="index : ${#numbers.sequence(1, totalPages)}"
-                            th:classappend="${index == page} ? 'active' : ''" class="page-item">
-                            <a class="page-link" th:href="@{/(page=${index}, roomId=${roomId})}" th:text="${index}"></a>
-                        </li>
-                        
-                        <li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
-                            <a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">&raquo;</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
 
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<div class="container mt-4">
+		<div th:replace="~{parts/common::header(${roomName})}"></div>
+		<div class="card shadow-sm">
+			<div class="card-header bg-primary text-white text-center">
+				<h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
+			</div>
+			<div class="card-body">
+				<form action="">
+					<select class="form-select mb-3" name="roomId">
+						<option value="ALL">全ての副資材を表示</option>
+						<option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
+							th:selected="${room.id.equals(roomId)}"></option>
+					</select>
+				</form>
+
+				<table class="table table-bordered table-hover text-center align-middle">
+					<thead class="table-dark">
+						<tr>
+							<th>品名</th>
+							<th>総量</th>
+							<th>購入日</th>
+							<th>備考</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${itemList}" th:object="${item}">
+							<td><a th:href="@{/show(id=*{id})}" th:text="*{name}"></a></td>
+							<td th:text="*{amount}"></td>
+							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
+							<td th:text="*{note}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- ページネーション -->
+				<nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
+					<ul class="pagination pagination-lg">
+						<li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
+							<a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">&laquo;</a>
+						</li>
+
+						<li th:each="index : ${#numbers.sequence(1, totalPages)}"
+							th:classappend="${index == page} ? 'active' : ''" class="page-item">
+							<a class="page-link" th:href="@{/(page=${index}, roomId=${roomId})}" th:text="${index}"></a>
+						</li>
+
+						<li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
+							<a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">&raquo;</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script>
+		// select要素変更時に送信処理
+		document.addEventListener("DOMContentLoaded", function () {
+			const selectElement = document.querySelector('select');
+			if (selectElement) {
+				selectElement.addEventListener('change', function () {
+					this.form.submit();
+				});
+			}
+		});
+	</script>
+
 </body>
 
 </html>

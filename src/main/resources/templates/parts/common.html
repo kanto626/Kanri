@@ -14,10 +14,7 @@
 <body>
 
 <div th:fragment="header(itemName)" class="d-flex justify-content-between py-3">
-  <h1 class="h2">副資材リスト
-    <span th:if="${itemName} != null" class="ms-2 h4">【[[${itemName}]]】</span>
-  </h1>
-  <div class="mt-2">
+  <div class="mt-2 ms-auto">
     <a th:href="@{/admin/login}">管理者ログイン</a>
   </div>
 </div>
