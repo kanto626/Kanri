@@ -23,4 +23,15 @@ public interface PlacementMapper {
 
 	// placements テーブルに配置情報を追加する
 	void insert(Placement placement);
+	
+	// placements テーブルに配置情報を追加する。
+	// 備品ID と場所ID の組が重複する場合は、追加ではなく更新する
+	void insertOrUpdate(List<Placement> placementList);
+	
+	// 数量が0個の場合、配置情報を削除する。ただし「倉庫」の配置情報については削除しない
+	void deleteZero();
+	
+	// 既存のselectByItemId(int itemId)を拡張したようなメソッド
+	// すべての場所情報との連携を行う点が異なる
+	List<Placement> selectAllRoomsByItemId(int itemId);
 }

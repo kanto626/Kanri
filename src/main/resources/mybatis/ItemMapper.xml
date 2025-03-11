@@ -62,5 +62,10 @@
 		VALUES
 		(#{name}, #{purchasedAt}, #{note});
 	</insert>
-
+	
+		<update id="update" parameterType="Item">
+		UPDATE items
+		SET name = #{name}, purchased_at = #{purchasedAt}, note = #{note}
+		WHERE id = #{id};
+	</update>
 </mapper>

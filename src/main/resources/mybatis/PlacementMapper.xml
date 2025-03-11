@@ -6,6 +6,12 @@
 		<result column="amount" property="amount" />
 		<result column="name" property="room.name" />
 	</resultMap>
+	
+		<resultMap type="Placement" id="detailedRoomMap">
+		<result column="amount" property="amount" />
+		<result column="id" property="room.id" />
+		<result column="name" property="room.name" />
+	</resultMap>
 
 	<select id="selectByItemId" resultMap="roomMap"
 		parameterType="int">
@@ -33,11 +39,47 @@
 		DELETE FROM placements
 		WHERE item_id = #{itemId};
 	</delete>
-	
+
 	<insert id="insert" parameterType="Placement">
-		INSERT INTO placements (item_id, room_id, amount)
+		INSERT INTO placements
+		(item_id, room_id, amount)
 		VALUES (#{item.id}, #{room.id}, #{amount});
 	</insert>
+
+	<!-- INSERTをまとめて行う + 重複する場合はUPDATEにする -->
+	<update id="insertOrUpdate" parameterType="java.util.List">
+		INSERT INTO placements (item_id, room_id, amount)
+		VALUES
+		<foreach collection="list" item="placement" separator=", ">
+			(#{placement.item.id}, #{placement.room.id}, #{placement.amount})
+		</foreach>
+		ON DUPLICATE KEY
+		UPDATE amount = VALUES(amount);
+	</update>
+
+	<!-- 在庫が0個の場合、配置情報を削除（ただし倉庫には残す） -->
+	<delete id="deleteZero">
+		DELETE FROM placements
+		WHERE amount = 0 AND NOT
+		room_id = 'S100';
+	</delete>
+
+	<!-- selectByIdの拡張版 -->
+	<select id="selectAllRoomsByItemId"  resultMap="detailedRoomMap" parameterType="int">
+		SELECT r.id, r.name, IFNULL(p.amount, 0) AS amount
+		FROM (
+			SELECT p.room_id, p.amount
+			FROM placements AS p
+			JOIN rooms AS r
+			ON p.room_id = r.id
+			WHERE p.item_id = #{itemId}
+			) AS p
+		RIGHT JOIN rooms AS r
+		ON p.room_id = r.id
+		ORDER BY r.id;
+	</select>
+
+
 </mapper>
 
 

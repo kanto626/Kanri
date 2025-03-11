@@ -28,4 +28,7 @@ public interface ItemMapper {
 
 	// items テーブルに資材情報を追加する
 	void insert(Item item);
+	
+	// items テーブル内の備品情報を更新する
+	void update(Item item);
 }

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{parts/common::head}"></head>
+<body>
+<div class="container mt-4">
+  <div th:replace="~{parts/common::admin-header('登録内容の編集')}"></div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-sm p-4">
+        <form th:action="@{/admin/edit}" method="post" id="editForm" th:object="${item}">
+          <input th:field="*{id}" type="hidden">
+          <input th:field="*{amount}" type="hidden" id="amountHidden">
+          
+          <div class="mb-3">
+            <label for="formName" class="form-label">品名</label>
+            <input th:field="*{name}" type="text" id="formName" class="form-control">
+            <p class="text-danger" th:errors="*{name}"></p>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">配置</label>
+            <div class="border rounded p-3 bg-light">
+              <div class="mb-2">総量:
+                <span th:text="*{amount}" class="h5 fw-bold" id="amountBefore"></span>
+                <span class="h5">⇒</span>
+                <span th:text="*{amount}" class="h5 fw-bold text-primary" id="amountAfter"></span>
+              </div>
+              <div id="amountList" class="d-flex flex-wrap gap-3">
+                <div th:each="placement, status : *{placementList}" class="d-flex align-items-center">
+                  <span class="fw-bold me-2">[[${placement.room.name}]]:</span>
+                  <input class="form-control w-auto amount" name="placementList"
+                         th:field="*{placementList[__${status.index}__].amount}" type="number" min="0" max="999" step="1">
+                  <input name="placementList" th:field="*{placementList[__${status.index}__].room.id}" type="hidden">
+                  <input name="placementList" th:field="*{placementList[__${status.index}__].room.name}" type="hidden">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="formDate" class="form-label">購入日</label>
+            <input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label for="formNote" class="form-label">備考</label>
+            <textarea th:field="*{note}" id="formNote" class="form-control"></textarea>
+            <p class="text-danger" th:errors="*{note}"></p>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary px-4">保存</button>
+            <a th:href="@{/admin(page=${session.pageNum})}" class="btn btn-outline-secondary px-4">キャンセル</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+// 操作対象の要素
+const inputList = document.querySelectorAll('#amountList .amount');
+const amountAfterElement = document.getElementById('amountAfter');
+
+// 元々の総量
+const amountBefore = Number(document.getElementById('amountBefore').textContent);
+let amountAfter = Number(document.getElementById('amountAfter').textContent);
+
+// 数量変更時の処理
+inputList.forEach(input => input.addEventListener('change', (e)=> {
+  // 総量の計算
+  let newAmount = 0;
+  inputList.forEach(input => newAmount += Number(input.value));
+  amountAfterElement.textContent = newAmount;
+  amountAfter = newAmount;
+}));
+
+// 送信ボタン押下時の処理
+document
+  .getElementById('editForm')
+  .addEventListener('submit', (e) => {
+    if(amountBefore === amountAfter) return;
+    
+    if(!confirm('総量が変更されています。よろしいですか？')) {
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>
