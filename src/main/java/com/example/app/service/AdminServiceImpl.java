@@ -1,6 +1,5 @@
 package com.example.app.service;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +25,6 @@ public class AdminServiceImpl implements AdminService{
 
 		// ログインIDに該当する管理者がいない
 		if(admin == null) {
-			return false;
-		}
-
-		// パスワードが異なる
-		if(!BCrypt.checkpw(loginPass, admin.getLoginPass())) {
 			return false;
 		}
 
