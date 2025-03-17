@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 offset-md-3 mt-4">
+				<div class="text-center">
+					<h1 class="h3">備品管理システム ログイン</h1>
+					<div class="form-signin">
+
+						<th:block th:object="${admin}">
+							<div th:errors="*{loginId}" class="alert alert-danger"></div>
+							<div th:errors="*{loginPass}" class="alert alert-danger"></div>
+						</th:block>
+
+						<form th:action="@{/admin/login}" method="post" th:object="${admin}">
+							<div class="form-floating">
+								<input th:field="*{loginId}" type="text" class="form-control" id="floatingLoginId"
+									placeholder="ログインID">
+								<label for="floatingLoginId">ログインID</label>
+							</div>
+							<div class="form-floating">
+								<input th:field="*{loginPass}" type="password" class="form-control"
+									id="floatingPassword" placeholder="パスワード">
+								<label for="floatingPassword">パスワード</label>
+							</div>
+							<div class="mt-3">
+								<input type="submit" class="w-100 btn btn-primary" value="ログイン" />
+							</div>
+						</form>
+
+					</div><!-- /.form-signin -->
+				</div><!-- /.text-center -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
