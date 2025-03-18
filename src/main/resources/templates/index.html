@@ -13,10 +13,28 @@
 			</div>
 			<div class="card-body">
 				<form action="">
+					<!-- 倉庫（roomId）選択 -->
+					<label for="roomId">倉庫選択：</label>
 					<select class="form-select mb-3" name="roomId">
 						<option value="ALL">全ての副資材を表示</option>
 						<option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
-							th:selected="${room.id.equals(roomId)}"></option>
+							th:selected="${room.id.equals(roomId)}">
+						</option>
+					</select>
+					<!-- カテゴリ（category）選択 -->
+					<label for="category">カテゴリ選択：</label>
+					<select class="form-select mb-3" name="category">
+						<option value="ALL">全てのカテゴリを表示</option>
+						<option value="PPE" th:selected="${category == 'PPE'}">個人防護具</option>
+						<option value="CONSUMABLES" th:selected="${category == 'CONSUMABLES'}">消耗品・清掃用品</option>
+						<option value="ADHESIVES" th:selected="${category == 'ADHESIVES'}">接着・塗装・コーティング</option>
+						<option value="PIPING" th:selected="${category == 'PIPING'}">配管・ホース関連</option>
+						<option value="ELECTRICAL" th:selected="${category == 'ELECTRICAL'}">電気・配線・計測器具</option>
+						<option value="MAINTENANCE" th:selected="${category == 'MAINTENANCE'}">設備メンテナンス用品</option>
+						<option value="FASTENERS" th:selected="${category == 'FASTENERS'}">固定・取り付け・締結部品</option>
+						<option value="TOOLS" th:selected="${category == 'TOOLS'}">工具・作業器具</option>
+						<option value="SAFETY" th:selected="${category == 'SAFETY'}">安全・防災用品</option>
+						<option value="LOGISTICS" th:selected="${category == 'LOGISTICS'}">物流・運搬・収納</option>
 					</select>
 				</form>
 
@@ -43,16 +61,19 @@
 				<nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
 					<ul class="pagination pagination-lg">
 						<li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
-							<a class="page-link" th:href="@{/(page=${page - 1}, roomId=${roomId})}">&laquo;</a>
+							<a class="page-link"
+								th:href="@{/(page=${page - 1}, roomId=${roomId}, category=${category})}">&laquo;</a>
 						</li>
 
 						<li th:each="index : ${#numbers.sequence(1, totalPages)}"
 							th:classappend="${index == page} ? 'active' : ''" class="page-item">
-							<a class="page-link" th:href="@{/(page=${index}, roomId=${roomId})}" th:text="${index}"></a>
+							<a class="page-link" th:href="@{/(page=${index}, roomId=${roomId}, category=${category})}"
+								th:text="${index}"></a>
 						</li>
 
 						<li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
-							<a class="page-link" th:href="@{/(page=${page + 1}, roomId=${roomId})}">&raquo;</a>
+							<a class="page-link"
+								th:href="@{/(page=${page + 1}, roomId=${roomId}, category=${category})}">&raquo;</a>
 						</li>
 					</ul>
 				</nav>
@@ -64,12 +85,12 @@
 	<script>
 		// select要素変更時に送信処理
 		document.addEventListener("DOMContentLoaded", function () {
-			const selectElement = document.querySelector('select');
-			if (selectElement) {
-				selectElement.addEventListener('change', function () {
+			const selects = document.querySelectorAll('select');
+			selects.forEach(select => {
+				select.addEventListener('change', function () {
 					this.form.submit();
 				});
-			}
+			});
 		});
 	</script>
 

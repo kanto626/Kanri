@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-	private int numPerPage = 20;
+	private int numPerPage = 15;
 
 	private final ItemMapper itemMapper;
 	private final PlacementMapper placementMapper;
@@ -51,6 +51,12 @@ public class ItemServiceImpl implements ItemService {
 	public List<Item> getByRoomId(String roomId) {
 		return itemMapper.selectByRoomId(roomId);
 	}
+	
+	@Override
+	public List<Item> getByCategoryAndRoom(String category, String roomId) {
+		  return itemMapper.selectByCategoryAndRoom(category, roomId);
+	}
+
 
 	// ページネーション関連 --------------------------------------------
 
@@ -145,6 +151,23 @@ public class ItemServiceImpl implements ItemService {
 		item.setPlacementList(list);
 		item.setAmount(amount);
 		return item;
+	}
+
+	@Override
+	public int getTotlaPagesByCategoryAndRoom(String category, String roomId) {
+	    int totalCount = itemMapper.countByCategoryAndRoom(category, roomId).intValue();
+	    return (int) Math.ceil((double) totalCount / numPerPage);
+	}
+
+	@Override
+	public List<Item> getByCategory(String category, Integer page) {
+		return itemMapper.selectByCategory(category, getOffset(page), numPerPage);
+	}
+
+	@Override
+	public int getTotalPagesByCategory(String category) {
+		  int totalCount = itemMapper.countByCategory(category).intValue();
+		    return (int) Math.ceil((double) totalCount / numPerPage);
 	}
 
 }

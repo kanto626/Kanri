@@ -24,27 +24,42 @@ public class StaffController {
 	private final RoomService roomService;
 
 	// 資材リスト
-	@GetMapping("/")
+	@GetMapping("/") // http://localhost:8080/ にアクセスすると、index()メソッドが呼ばれる
 	public String index(
+			// roomId / category / page は、URLの GET パラメータから取得される
 			@RequestParam(name = "roomId", defaultValue = "ALL") String roomId,
+			@RequestParam(name = "category", defaultValue = "ALL") String category,
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			HttpSession session,
 			Model model) {
 
 		List<Item> itemList;
+		// ページネーション（ページ数管理）用の変数
 		int totalPages = 0;
-		if (!roomId.equals("ALL")) {
-			model.addAttribute("roomName", roomService.getNameById(roomId));
-			itemList = itemService.getByRoomIdAndPage(roomId, page);
-			totalPages = itemService.getTotlaPagesByRoomId(roomId);
+		
+		if (!category.equals("ALL") && !roomId.equals("ALL")) {
+		    // 🔹 カテゴリ & 倉庫 両方のフィルタを適用
+		    itemList = itemService.getByCategoryAndRoom(category, roomId);
+		    totalPages = itemService.getTotlaPagesByCategoryAndRoom(category, roomId);
+		} else if (!category.equals("ALL")) {
+		    // 🔹 カテゴリのみでフィルタ
+		    itemList = itemService.getByCategory(category, page);
+		    totalPages = itemService.getTotalPagesByCategory(category);
+		} else if (!roomId.equals("ALL")) {
+		    // 🔹 倉庫のみでフィルタ
+		    itemList = itemService.getByRoomIdAndPage(roomId, page);
+		    totalPages = itemService.getTotlaPagesByRoomId(roomId);
 		} else {
-			itemList = itemService.getByPage(page);
-			totalPages = itemService.getTotalPages();
+		    // 🔹 すべてのアイテムを取得
+		    itemList = itemService.getByPage(page);
+		    totalPages = itemService.getTotalPages();
 		}
+
 
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("roomList", roomService.getAll());
 		model.addAttribute("roomId", roomId);
+	    model.addAttribute("category", category);
 		model.addAttribute("page", page);
 		model.addAttribute("totalPages", totalPages);
 		return "index";

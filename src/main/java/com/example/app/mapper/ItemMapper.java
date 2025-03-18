@@ -31,4 +31,13 @@ public interface ItemMapper {
 	
 	// items テーブル内の備品情報を更新する
 	void update(Item item);
+
+	// カテゴリと場所IDを元に、ID、品名、総数、購入日、備考のリストを返す
+	List<Item> selectByCategoryAndRoom(String category, String roomId);
+
+	Integer countByCategoryAndRoom(String category, String roomId);
+
+	List<Item> selectByCategory(String category, int offset, int numPerPage);
+
+	Integer countByCategory(String category);
 }

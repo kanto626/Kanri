@@ -62,10 +62,61 @@
 		VALUES
 		(#{name}, #{purchasedAt}, #{note});
 	</insert>
-	
-		<update id="update" parameterType="Item">
+
+	<update id="update" parameterType="Item">
 		UPDATE items
-		SET name = #{name}, purchased_at = #{purchasedAt}, note = #{note}
-		WHERE id = #{id};
+		SET name =
+		#{name}, purchased_at = #{purchasedAt}, note = #{note}
+		WHERE id =
+		#{id};
 	</update>
+
+	<!-- カテゴリ & 倉庫 両方でフィルタ -->
+	<select id="selectByCategoryAndRoom" resultType="Item">
+		SELECT i.id,
+		i.name, i.category, SUM(p.amount) AS amount, i.purchased_at,
+		i.note
+		FROM placements AS p
+		JOIN items AS i ON i.id = p.item_id
+		WHERE
+		i.category = #{category}
+		AND p.room_id = #{roomId}
+		GROUP BY p.item_id
+		ORDER BY i.name;
+	</select>
+
+	<!-- カテゴリのみでフィルタ -->
+	<select id="selectByCategory" resultType="Item">
+		SELECT i.id, i.name,
+		i.category, SUM(p.amount) AS amount, i.purchased_at,
+		i.note
+		FROM
+		placements AS p
+		JOIN items AS i ON i.id = p.item_id
+		WHERE i.category =
+		#{category}
+		GROUP BY p.item_id
+		ORDER BY i.name
+		LIMIT #{offset},
+		#{numPerPage};
+	</select>
+
+	<!-- カテゴリ & 倉庫のアイテム数カウント -->
+	<select id="countByCategoryAndRoom" resultType="integer">
+		SELECT COUNT(DISTINCT i.id)
+		FROM placements AS p
+		JOIN items AS i ON i.id = p.item_id
+		WHERE i.category = #{category}
+		AND p.room_id = #{roomId};
+	</select>
+
+
+	<!-- カテゴリのアイテム数カウント -->
+	<select id="countByCategory" resultType="integer">
+		SELECT COUNT(DISTINCT
+		i.id)
+		FROM items AS i
+		WHERE i.category = #{category};
+	</select>
+
 </mapper>

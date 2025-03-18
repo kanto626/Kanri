@@ -30,17 +30,27 @@ public interface ItemService {
 
 	// 場所IDで絞り込んだ資材リストを表示するにあたって必要なページ数を返す
 	int getTotlaPagesByRoomId(String roomId);
-	
+
 	// 資材ID を元に、資材情報の削除を行う
 	void deleteById(int id);
 
 	// 資材を登録し、倉庫に配置する
 	void add(Item item);
-	
+
 	// 資材及び配置情報を更新する
 	// 配置されている数量が0個になる場合、配置情報を削除(倉庫は除く)
 	void edit(Item item);
-	
+
 	// 編集ページで必要な資材情報を返す(配置情報も含まれる)
 	Item getOneByIdToEdit(int id);
+
+	// カテゴリと場所IDを元に、ID、品名、総数、購入日、備考のリストを返す
+	List<Item> getByCategoryAndRoom(String category, String roomId);
+
+	int getTotlaPagesByCategoryAndRoom(String category, String roomId);
+
+	List<Item> getByCategory(String category, Integer page);
+
+	int getTotalPagesByCategory(String category);
+
 }
