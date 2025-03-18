@@ -58,15 +58,15 @@
 
 	<insert id="insert" parameterType="Item" useGeneratedKeys="true"
 		keyProperty="id">
-		INSERT INTO items (name, purchased_at, note)
+		INSERT INTO items (name, purchased_at, note, category)
 		VALUES
-		(#{name}, #{purchasedAt}, #{note});
+		(#{name}, #{purchasedAt}, #{note}, #{category});
 	</insert>
 
 	<update id="update" parameterType="Item">
 		UPDATE items
 		SET name =
-		#{name}, purchased_at = #{purchasedAt}, note = #{note}
+		#{name}, purchased_at = #{purchasedAt}, note = #{note}, category=#{category}
 		WHERE id =
 		#{id};
 	</update>

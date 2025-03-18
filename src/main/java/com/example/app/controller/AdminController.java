@@ -1,6 +1,8 @@
 package com.example.app.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +64,14 @@ public class AdminController {
 		item.setAmount(0);
 		item.setPurchasedAt(LocalDate.now());
 		model.addAttribute("item", item);
+		model.addAttribute("categories", getCategoryList()); // カテゴリ一覧を渡す
 		return "admin/add";
+	}
+
+	// カテゴリ一覧を取得するメソッド
+	private List<String> getCategoryList() {
+		return Arrays.asList("PPE", "CONSUMABLES", "ADHESIVES", "PIPING", "ELECTRICAL",
+				"MAINTENANCE", "FASTENERS", "TOOLS", "SAFETY", "LOGISTICS");
 	}
 
 	@PostMapping("/add")
@@ -96,6 +105,7 @@ public class AdminController {
 		}
 
 		model.addAttribute("item", item);
+		model.addAttribute("categories", getCategoryList());
 		return "admin/edit";
 	}
 
@@ -108,6 +118,7 @@ public class AdminController {
 			HttpSession session,
 			Model model) {
 		if (errors.hasErrors()) {
+			 model.addAttribute("categories", getCategoryList()); 
 			return "admin/edit";
 		}
 

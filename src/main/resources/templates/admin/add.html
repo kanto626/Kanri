@@ -1,52 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{parts/common::head}"></head>
-<body>
-<div class="container mt-4">
-  <div th:replace="~{parts/common::admin-header('管理者用')}"></div>
-  
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white text-center">
-          <h4>副資材登録フォーム</h4>
-        </div>
-        <div class="card-body">
-          <form th:action="@{/admin/add}" method="post" th:object="${item}">
-            <div class="mb-3">
-              <label for="formName" class="form-label">品名</label>
-              <input th:field="*{name}" type="text" id="formName" class="form-control">
-              <div class="text-danger small" th:errors="*{name}"></div>
-            </div>
-            
-            <div class="mb-3">
-              <label for="formAmount" class="form-label">総量</label>
-              <input th:field="*{amount}" type="number" id="formAmount" min="0" max="999" step="1" class="form-control">
-              <div class="text-danger small" th:errors="*{amount}"></div>
-            </div>
-            
-            <div class="mb-3">
-              <label for="formDate" class="form-label">購入日</label>
-              <input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
-            </div>
-            
-            <div class="mb-3">
-              <label for="formNote" class="form-label">備考</label>
-              <textarea th:field="*{note}" id="formNote" class="form-control" rows="3"></textarea>
-              <div class="text-danger small" th:errors="*{note}"></div>
-            </div>
-            
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">登録</button>
-              <a th:href="@{/admin(page=${session.pageNum})}" class="btn btn-outline-secondary ms-2">キャンセル</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container mt-4">
+		<div th:replace="~{parts/common::admin-header('管理者用')}"></div>
+
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card shadow-lg">
+					<div class="card-header bg-primary text-white text-center">
+						<h4>副資材登録フォーム</h4>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/admin/add}" method="post" th:object="${item}">
+							<div class="mb-3">
+								<label for="formName" class="form-label">品名</label>
+								<input th:field="*{name}" type="text" id="formName" class="form-control">
+								<div class="text-danger small" th:errors="*{name}"></div>
+							</div>
+							<div class="mb-3">
+								<label for="formCategory" class="form-label">カテゴリ</label>
+								<select id="formCategory" name="category" class="form-select" required>
+									<option value="">カテゴリを選択</option>
+									<option value="PPE" th:selected="${item.category == 'PPE'}">個人防護具</option>
+									<option value="CONSUMABLES" th:selected="${item.category == 'CONSUMABLES'}">消耗品・清掃用品
+									</option>
+									<option value="ADHESIVES" th:selected="${item.category == 'ADHESIVES'}">接着・塗装・コーティング
+									</option>
+									<option value="PIPING" th:selected="${item.category == 'PIPING'}">配管・ホース関連</option>
+									<option value="ELECTRICAL" th:selected="${item.category == 'ELECTRICAL'}">電気・配線・計測器具
+									</option>
+									<option value="MAINTENANCE" th:selected="${item.category == 'MAINTENANCE'}">
+										設備メンテナンス用品</option>
+									<option value="FASTENERS" th:selected="${item.category == 'FASTENERS'}">固定・取り付け・締結部品
+									</option>
+									<option value="TOOLS" th:selected="${item.category == 'TOOLS'}">工具・作業器具</option>
+									<option value="SAFETY" th:selected="${item.category == 'SAFETY'}">安全・防災用品</option>
+									<option value="LOGISTICS" th:selected="${item.category == 'LOGISTICS'}">物流・運搬・収納
+									</option>
+								</select>
+								<div class="text-danger small" th:errors="*{category}"></div>
+							</div>
+
+							<div class="mb-3">
+								<label for="formAmount" class="form-label">総量</label>
+								<input th:field="*{amount}" type="number" id="formAmount" min="0" max="999" step="1"
+									class="form-control">
+								<div class="text-danger small" th:errors="*{amount}"></div>
+							</div>
+
+							<div class="mb-3">
+								<label for="formDate" class="form-label">購入日</label>
+								<input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
+							</div>
+
+							<div class="mb-3">
+								<label for="formNote" class="form-label">備考</label>
+								<textarea th:field="*{note}" id="formNote" class="form-control" rows="3"></textarea>
+								<div class="text-danger small" th:errors="*{note}"></div>
+							</div>
+
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary">登録</button>
+								<a th:href="@{/admin(page=${session.pageNum})}"
+									class="btn btn-outline-secondary ms-2">キャンセル</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
+
 </html>
