@@ -6,7 +6,7 @@
 <body>
 
 	<div class="container mt-4">
-		<div th:replace="~{parts/common::header(${roomName})}"></div>
+		<div th:replace="~{parts/common::team-header('チーム用')}"></div>
 		<div class="card shadow-sm">
 			<div class="card-header bg-success text-white text-center">
 				<h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>

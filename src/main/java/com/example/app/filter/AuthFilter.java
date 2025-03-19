@@ -22,10 +22,17 @@ public class AuthFilter implements Filter {
 		HttpSession session = req.getSession();
 
 		String url = req.getRequestURI();
-		if (!url.endsWith("login") && session.getAttribute("name") == null) {
-			res.sendRedirect("/admin/login");
-			return;
-		}
+
+		 // 管理者認証
+        if (url.startsWith("/admin") && session.getAttribute("name") == null) {
+            res.sendRedirect("/admin/login");
+            return;
+        }
+        // チーム認証
+        if (url.startsWith("/team") && session.getAttribute("teamId") == null) {
+            res.sendRedirect("/team/login");
+            return;
+        }
 		chain.doFilter(request, response);
 	}
 }

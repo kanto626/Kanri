@@ -13,19 +13,23 @@
 </head>
 <body>
 
-<div th:fragment="header(itemName)" class="d-flex justify-content-between py-3">
-  <div class="mt-2 ms-auto">
-    <a th:href="@{/admin/login}">管理者ログイン</a>
-  </div>
-</div>
-
+<!-- 管理者ヘッダー -->
 <div th:fragment="admin-header(heading)" class="d-flex justify-content-between py-3">
   <h1 class="h2" th:text="${heading}"></h1>
   <div class="mt-2">
-    <span class="h6">中村魁人</span>さん
+    <span class="h6" th:text="${session.name}"></span> さん
     [ <a th:href="@{/admin/logout}">ログアウト</a> ]
   </div>
 </div>
+
+<!-- チームヘッダー -->
+<div th:fragment="team-header(heading)" class="d-flex justify-content-between py-3">
+  <h1 class="h2" th:text="${session.name}"></h1>
+  <div class="mt-2">
+    [ <a th:href="@{/team/logout}">ログアウト</a> ]
+  </div>
+</div>
+
 
 </body>
 </html>

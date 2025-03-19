@@ -8,12 +8,12 @@
 		<div class="col-md-5">
 			<div class="card shadow-lg p-4">
 				<div class="card-body text-center">
-					<h1 class="h4 mb-3">副資材管理システム 管理者ログイン</h1>
-					
+					<h1 class="h4 mb-3">副資材管理システム ログイン</h1>
+
 					<!-- エラーメッセージ -->
-					<th:block th:object="${admin}">
-						<div th:if="${#fields.hasErrors('loginId')}" class="alert alert-danger p-2">
-							<span th:errors="*{loginId}"></span>
+					<th:block th:object="${team}">
+						<div th:if="${#fields.hasErrors('id')}" class="alert alert-danger p-2">
+							<span th:errors="*{id}"></span>
 						</div>
 						<div th:if="${#fields.hasErrors('loginPass')}" class="alert alert-danger p-2">
 							<span th:errors="*{loginPass}"></span>
@@ -21,25 +21,27 @@
 					</th:block>
 
 					<!-- ログインフォーム -->
-					<form th:action="@{/admin/login}" method="post" th:object="${admin}">
+					<form th:action="@{/team/login}" method="post" th:object="${team}">
 						<div class="form-floating mb-3">
-							<input th:field="*{loginId}" type="text" class="form-control" id="floatingLoginId"
-								placeholder="ログインID">
-							<label for="floatingLoginId">ログインID</label>
+							<input th:field="*{id}" type="text" class="form-control" id="floatingTeamId"
+								placeholder="チームID">
+							<label for="floatingTeamId">所属チームID</label>
 						</div>
 						<div class="form-floating mb-3">
-							<input th:field="*{loginPass}" type="password" class="form-control"
-								id="floatingPassword" placeholder="パスワード">
+							<input th:field="*{loginPass}" type="password" class="form-control" id="floatingPassword"
+								placeholder="パスワード">
 							<label for="floatingPassword">パスワード</label>
 						</div>
 						<div class="d-grid">
 							<button type="submit" class="btn btn-primary btn-lg">ログイン</button>
 						</div>
 					</form>
-					<!-- 一般ログインページへのリンク -->
+
+					<!-- 管理者ログインページへのリンク -->
 					<div class="mt-3">
-						<a th:href="@{/team/login}" class="text-decoration-none">一般ログインはこちら</a>
+						<a th:href="@{/admin/login}" class="text-decoration-none">管理者ログインはこちら</a>
 					</div>
+
 				</div>
 			</div>
 		</div>

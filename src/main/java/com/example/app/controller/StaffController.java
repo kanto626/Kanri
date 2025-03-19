@@ -24,7 +24,7 @@ public class StaffController {
 	private final RoomService roomService;
 
 	// 資材リスト
-	@GetMapping("/") // http://localhost:8080/ にアクセスすると、index()メソッドが呼ばれる
+	@GetMapping("/team") // http://localhost:8080/ にアクセスすると、index()メソッドが呼ばれる
 	public String index(
 			// roomId / category / page は、URLの GET パラメータから取得される
 			@RequestParam(name = "roomId", defaultValue = "ALL") String roomId,
@@ -62,7 +62,7 @@ public class StaffController {
 	    model.addAttribute("category", category);
 		model.addAttribute("page", page);
 		model.addAttribute("totalPages", totalPages);
-		return "index";
+		return "team/index";
 	}
 
 	// 資材個別表示
