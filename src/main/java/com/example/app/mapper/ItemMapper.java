@@ -35,9 +35,12 @@ public interface ItemMapper {
 	// カテゴリと場所IDを元に、ID、品名、総数、購入日、備考のリストを返す
 	List<Item> selectByCategoryAndRoom(String category, String roomId);
 
+	// 指定されたカテゴリと場所に該当する資材の総数を取得
 	Integer countByCategoryAndRoom(String category, String roomId);
 
+	// 指定されたカテゴリに該当する資材のリストを、ページネーションを考慮して取得
 	List<Item> selectByCategory(String category, int offset, int numPerPage);
 
+	// 指定されたカテゴリに該当する資材の総数を取得
 	Integer countByCategory(String category);
 }

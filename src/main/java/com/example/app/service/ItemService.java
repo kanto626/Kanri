@@ -47,10 +47,13 @@ public interface ItemService {
 	// カテゴリと場所IDを元に、ID、品名、総数、購入日、備考のリストを返す
 	List<Item> getByCategoryAndRoom(String category, String roomId);
 
+	// 指定されたカテゴリと部屋に含まれる資材の総ページ数を取得
 	int getTotlaPagesByCategoryAndRoom(String category, String roomId);
 
+	// 指定されたカテゴリに属する資材のリストを、ページネーションを考慮して取得
 	List<Item> getByCategory(String category, Integer page);
 
+	// 指定されたカテゴリの資材の総ページ数を取得
 	int getTotalPagesByCategory(String category);
 
 }
