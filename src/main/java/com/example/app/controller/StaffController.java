@@ -32,6 +32,9 @@ public class StaffController {
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			HttpSession session,
 			Model model) {
+		// 「戻る」用
+		session.setAttribute("roomId", roomId);
+		session.setAttribute("page", page);
 
 		List<Item> itemList;
 		// ページネーション（ページ数管理）用の変数
@@ -68,19 +71,24 @@ public class StaffController {
 	// 資材個別表示
 	@GetMapping("/show")
 	public String show(
-			@RequestParam(name = "id", required = false) Integer id,
-			Model model) {
-		Item item = null;
-		if (id != null) {
-			item = itemService.getOneById(id);
-		}
+	    @RequestParam(name = "id") Integer id, // ← もう null にならないからチェック不要
+	    @RequestParam(name = "roomId", defaultValue = "ALL") String roomId,
+	    @RequestParam(name = "category", defaultValue = "ALL") String category,
+	    @RequestParam(name = "page", defaultValue = "1") Integer page,
+	    Model model) {
 
-		if (item == null) {
-			return "redirect:/";
-		}
+	    Item item = itemService.getOneById(id);
+	    if (item == null) {
+	        return "redirect:/team"; // ← これは念のため残しておくと安心
+	    }
 
-		model.addAttribute("item", item);
-		return "show";
+	    model.addAttribute("item", item);
+	    model.addAttribute("roomId", roomId);
+	    model.addAttribute("category", category);
+	    model.addAttribute("page", page);
+
+	    return "team/show";
 	}
+
 
 }

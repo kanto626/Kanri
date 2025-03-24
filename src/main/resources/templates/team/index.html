@@ -12,9 +12,9 @@
 				<h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
 			</div>
 			<div class="card-body">
-			<form action="/team">
-					<!-- 倉庫（roomId）選択 -->
-					<label for="roomId">倉庫選択：</label>
+				<form action="/team">
+					<!-- 場所（roomId）選択 -->
+					<label for="roomId">場所選択：</label>
 					<select class="form-select mb-3" name="roomId">
 						<option value="ALL">全ての副資材を表示</option>
 						<option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
@@ -49,7 +49,9 @@
 					</thead>
 					<tbody>
 						<tr th:each="item : ${itemList}" th:object="${item}">
-							<td><a th:href="@{/show(id=*{id})}" th:text="*{name}"></a></td>
+							<td><a th:href="@{/show(id=*{id}, roomId=${roomId}, category=${category}, page=${page})}"
+									th:text="*{name}"></a>
+							</td>
 							<td th:text="*{amount}"></td>
 							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
 							<td th:text="*{note}"></td>
@@ -67,7 +69,8 @@
 
 						<li th:each="index : ${#numbers.sequence(1, totalPages)}"
 							th:classappend="${index == page} ? 'active' : ''" class="page-item">
-							<a class="page-link" th:href="@{/team(page=${index}, roomId=${roomId}, category=${category})}"
+							<a class="page-link"
+								th:href="@{/team(page=${index}, roomId=${roomId}, category=${category})}"
 								th:text="${index}"></a>
 						</li>
 
