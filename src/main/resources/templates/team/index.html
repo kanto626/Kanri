@@ -12,7 +12,7 @@
 				<h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
 			</div>
 			<div class="card-body">
-				<form action="">
+			<form action="/team">
 					<!-- 倉庫（roomId）選択 -->
 					<label for="roomId">倉庫選択：</label>
 					<select class="form-select mb-3" name="roomId">
@@ -62,18 +62,18 @@
 					<ul class="pagination pagination-lg">
 						<li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
 							<a class="page-link"
-								th:href="@{/(page=${page - 1}, roomId=${roomId}, category=${category})}">&laquo;</a>
+								th:href="@{/team(page=${page - 1}, roomId=${roomId}, category=${category})}">&laquo;</a>
 						</li>
 
 						<li th:each="index : ${#numbers.sequence(1, totalPages)}"
 							th:classappend="${index == page} ? 'active' : ''" class="page-item">
-							<a class="page-link" th:href="@{/(page=${index}, roomId=${roomId}, category=${category})}"
+							<a class="page-link" th:href="@{/team(page=${index}, roomId=${roomId}, category=${category})}"
 								th:text="${index}"></a>
 						</li>
 
 						<li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
 							<a class="page-link"
-								th:href="@{/(page=${page + 1}, roomId=${roomId}, category=${category})}">&raquo;</a>
+								th:href="@{/team(page=${page + 1}, roomId=${roomId}, category=${category})}">&raquo;</a>
 						</li>
 					</ul>
 				</nav>
