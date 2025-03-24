@@ -33,6 +33,7 @@ public class TeamServiceImpl implements TeamService {
 		// ⇒ チーム名とIDをセッションに格納
 		session.setAttribute("name", team.getName());
 		session.setAttribute("teamId", team.getId());
+		session.setAttribute("roomId", team.getRoomId());
 		return true;
 	}
 }

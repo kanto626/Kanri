@@ -8,6 +8,8 @@ import lombok.Data;
 public class Team {
 	@NotBlank
 	private String id;
+	private String roomId;
+
 	@NotBlank
 	private String loginPass;
 	private String name;

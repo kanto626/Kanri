@@ -27,15 +27,29 @@ public class StaffController {
 	@GetMapping("/team") // http://localhost:8080/ にアクセスすると、index()メソッドが呼ばれる
 	public String index(
 			// roomId / category / page は、URLの GET パラメータから取得される
-			@RequestParam(name = "roomId", defaultValue = "ALL") String roomId,
+			@RequestParam(name = "roomId", required = false) String roomId,
 			@RequestParam(name = "category", defaultValue = "ALL") String category,
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			HttpSession session,
 			Model model) {
-		// 「戻る」用
-		session.setAttribute("roomId", roomId);
-		session.setAttribute("page", page);
 
+		if (roomId == null) {
+		    String sessionRoomId = (String) session.getAttribute("roomId");
+		    if (sessionRoomId != null) {
+		        roomId = sessionRoomId;
+		    } else {
+		        roomId = "ALL"; // 念のため fallback。セッションに何もないとき用
+		    }
+		}
+
+		if (!roomId.equals("ALL")) {
+	        String roomName = roomService.getNameById(roomId);
+	        model.addAttribute("roomName", roomName);
+	    } else {
+	        model.addAttribute("roomName", null);
+	    }
+
+		 
 		List<Item> itemList;
 		// ページネーション（ページ数管理）用の変数
 		int totalPages = 0;
@@ -58,6 +72,9 @@ public class StaffController {
 		    totalPages = itemService.getTotalPages();
 		}
 
+		// 「戻る」用
+		session.setAttribute("roomId", roomId);
+		session.setAttribute("page", page);
 
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("roomList", roomService.getAll());
