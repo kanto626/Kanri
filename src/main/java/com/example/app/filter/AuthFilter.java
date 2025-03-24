@@ -23,16 +23,25 @@ public class AuthFilter implements Filter {
 
 		String url = req.getRequestURI();
 
-		 // 管理者認証
-        if (url.startsWith("/admin") && session.getAttribute("name") == null) {
-            res.sendRedirect("/admin/login");
-            return;
-        }
-        // チーム認証
-        if (url.startsWith("/team") && session.getAttribute("teamId") == null) {
-            res.sendRedirect("/team/login");
-            return;
-        }
+		// 🔒ログインページは除外する（これがないとループする）
+		if (url.equals("/admin/login") || url.equals("/team/login")) {
+			chain.doFilter(request, response);
+			return;
+		}
+
+		// 管理者認証
+		if (url.startsWith("/admin") && session.getAttribute("adminId") == null) {
+			res.sendRedirect("/admin/login");
+			return;
+		}
+
+		// チーム認証
+		if (url.startsWith("/team") && session.getAttribute("teamId") == null) {
+			res.sendRedirect("/team/login");
+			return;
+		}
+
 		chain.doFilter(request, response);
 	}
+
 }

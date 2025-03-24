@@ -30,8 +30,9 @@ public class TeamServiceImpl implements TeamService {
 			return false;
 		}
 		// ログインID・パスワードが正しい
-		// ⇒ チーム名をセッションに格納
+		// ⇒ チーム名とIDをセッションに格納
 		session.setAttribute("name", team.getName());
+		session.setAttribute("teamId", team.getId());
 		return true;
 	}
 }

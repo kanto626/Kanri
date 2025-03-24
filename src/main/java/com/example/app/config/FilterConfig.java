@@ -16,7 +16,7 @@ public class FilterConfig implements WebMvcConfigurer{
 	FilterRegistrationBean<AuthFilter> authFilter() {
 	var bean =
 	new FilterRegistrationBean<AuthFilter>(new AuthFilter());
-	bean.addUrlPatterns("/admins/*");
+	bean.addUrlPatterns("/admin/*", "/team/*");
 	return bean;
 	}
 }

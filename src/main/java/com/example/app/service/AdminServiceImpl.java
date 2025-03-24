@@ -31,8 +31,9 @@ public class AdminServiceImpl implements AdminService {
 			return false;
 		}
 		// ログインID・パスワードが正しい
-		// ⇒ 管理者氏名をセッションに格納
+		// ⇒ 管理者氏名とIDをセッションに格納
 		session.setAttribute("name", admin.getName());
+		session.setAttribute("adminId", admin.getLoginId());
 		return true;
 	}
 

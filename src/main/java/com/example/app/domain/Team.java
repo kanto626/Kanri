@@ -7,7 +7,7 @@ import lombok.Data;
 // チーム情報を保持するためのクラス
 public class Team {
 	@NotBlank
-	public String id;
+	private String id;
 	@NotBlank
 	private String loginPass;
 	private String name;
