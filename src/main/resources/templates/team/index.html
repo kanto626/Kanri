@@ -37,7 +37,29 @@
 						<option value="LOGISTICS" th:selected="${category == 'LOGISTICS'}">物流・運搬・収納</option>
 					</select>
 				</form>
+				<div class="map-wrapper">
+					<img src="/images/factory-map.png" alt="工場マップ">
 
+					<!-- 各倉庫のエリア（仮の座標） -->
+					
+					<!-- 例：横方向に25%、縦方向に10%ずつのエリア配置 -->
+<div class="area" data-room="R101" style="top: 10%; left: 5%; width: 15%; height: 10%;"></div>
+
+					<div class="area" data-room="R102" style="top: 50px; left: 170px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="R103" style="top: 50px; left: 290px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="R201" style="top: 150px; left: 50px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="R202" style="top: 150px; left: 170px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="R203" style="top: 150px; left: 290px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="R301" style="top: 250px; left: 50px; width: 100px; height: 80px;">
+					</div>
+					<div class="area" data-room="S100" style="top: 250px; left: 170px; width: 220px; height: 80px;">
+					</div>
+				</div>
 				<table class="table table-bordered table-hover text-center align-middle">
 					<thead class="table-secondary">
 						<tr>
@@ -96,6 +118,36 @@
 			});
 		});
 	</script>
+	<script th:inline="javascript">
+		const selectedRoomId = /*[[${roomId}]]*/ "ALL";
+	</script>
+
+	<script>
+		// クリックで選択（ハイライト）＆ roomId + category を維持して遷移
+		document.addEventListener("DOMContentLoaded", function () {
+			const areas = document.querySelectorAll('.area');
+			const currentCategory = document.querySelector('select[name="category"]').value;
+
+			if (selectedRoomId !== "ALL") {
+				const selectedArea = document.querySelector(`.area[data-room="${selectedRoomId}"]`);
+				if (selectedArea) {
+					selectedArea.classList.add("selected");
+				}
+			}
+
+			areas.forEach(area => {
+				area.addEventListener('click', () => {
+					areas.forEach(a => a.classList.remove('selected'));
+					area.classList.add('selected');
+
+					const roomId = area.dataset.room;
+					// roomId + 現在のcategoryをURLに渡す
+					window.location.href = `/team?roomId=${roomId}&category=${currentCategory}`;
+				});
+			});
+		});
+	</script>
+
 
 </body>
 
