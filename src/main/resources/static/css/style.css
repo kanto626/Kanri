@@ -56,35 +56,30 @@
 
 /* マップ */
 .map-wrapper {
-  position: relative;
-  max-width: 100%;
-  aspect-ratio: 16 / 9; /* 画像の縦横比に合わせて設定（例：横長） */
+	position: relative;
+	max-width: 100%;
+	aspect-ratio: 1243 / 669;
 }
+
 .map-wrapper img {
-  width: 100%;
-  display: block;
+	width: 100%;
+	display: block;
 }
+
 .area {
-  position: absolute;
-  border: 2px solid transparent;
-  background-color: transparent;
-  transition: 0.2s;
+	position: absolute;
+	border: 2px solid transparent;
+	background-color: transparent;
+	transition: 0.2s;
 }
+
 .area:hover {
-  background-color: rgba(255, 255, 0, 0.3);
-  border-color: orange;
-  cursor: pointer;
+	background-color: rgba(255, 255, 0, 0.3);
+	border-color: orange;
+	cursor: pointer;
 }
+
 .area.selected {
-  background-color: rgba(0, 128, 255, 0.3);
-  border-color: #007bff;
+	background-color: rgba(0, 128, 255, 0.3);
+	border-color: #007bff;
 }
-
-/* 座標合わせ用 */
-.area {
-  position: absolute;
-  border: 2px solid #ff00ff; /* 紫っぽい目立つ色 */
-  background-color: transparent;
-  transition: 0.2s;
-}
-

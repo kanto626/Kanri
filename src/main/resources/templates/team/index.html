@@ -11,99 +11,117 @@
 			<div class="card-header bg-success text-white text-center">
 				<h2 th:text="${roomName != null ? roomName + 'の副資材リスト' : '全ての副資材リスト'}"></h2>
 			</div>
-			<div class="card-body">
-				<form action="/team">
-					<!-- 場所（roomId）選択 -->
-					<label for="roomId">場所選択：</label>
-					<select class="form-select mb-3" name="roomId">
-						<option value="ALL">全ての副資材を表示</option>
-						<option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}" th:value="${room.id}"
-							th:selected="${room.id.equals(roomId)}">
-						</option>
-					</select>
-					<!-- カテゴリ（category）選択 -->
-					<label for="category">カテゴリ選択：</label>
-					<select class="form-select mb-3" name="category">
-						<option value="ALL">全てのカテゴリを表示</option>
-						<option value="PPE" th:selected="${category == 'PPE'}">個人防護具</option>
-						<option value="CONSUMABLES" th:selected="${category == 'CONSUMABLES'}">消耗品・清掃用品</option>
-						<option value="ADHESIVES" th:selected="${category == 'ADHESIVES'}">接着・塗装・コーティング</option>
-						<option value="PIPING" th:selected="${category == 'PIPING'}">配管・ホース関連</option>
-						<option value="ELECTRICAL" th:selected="${category == 'ELECTRICAL'}">電気・配線・計測器具</option>
-						<option value="MAINTENANCE" th:selected="${category == 'MAINTENANCE'}">設備メンテナンス用品</option>
-						<option value="FASTENERS" th:selected="${category == 'FASTENERS'}">固定・取り付け・締結部品</option>
-						<option value="TOOLS" th:selected="${category == 'TOOLS'}">工具・作業器具</option>
-						<option value="SAFETY" th:selected="${category == 'SAFETY'}">安全・防災用品</option>
-						<option value="LOGISTICS" th:selected="${category == 'LOGISTICS'}">物流・運搬・収納</option>
-					</select>
-				</form>
-				<div class="map-wrapper">
-					<img src="/images/factory-map.png" alt="工場マップ">
 
-					<!-- 各倉庫のエリア（仮の座標） -->
-					
-					<!-- 例：横方向に25%、縦方向に10%ずつのエリア配置 -->
-<div class="area" data-room="R101" style="top: 10%; left: 5%; width: 15%; height: 10%;"></div>
+			<div class="row align-items-start mt-3 ms-1">
+				<!-- 左側：フォーム -->
+				<div class="col-md-6">
+					<form action="/team" class="mb-3">
+						<div class="mb-3">
+							<label for="roomId">場所選択：</label>
+							<select class="form-select form-select-sm" name="roomId">
+								<option value="ALL">全ての副資材を表示</option>
+								<option th:each="room : ${roomList}" th:text="${room.name + 'の副資材を表示'}"
+									th:value="${room.id}" th:selected="${room.id.equals(roomId)}">
+								</option>
+							</select>
+							<p class="text-muted small mt-1">※右のマップをクリックして選択することもできます。</p>
 
-					<div class="area" data-room="R102" style="top: 50px; left: 170px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="R103" style="top: 50px; left: 290px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="R201" style="top: 150px; left: 50px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="R202" style="top: 150px; left: 170px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="R203" style="top: 150px; left: 290px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="R301" style="top: 250px; left: 50px; width: 100px; height: 80px;">
-					</div>
-					<div class="area" data-room="S100" style="top: 250px; left: 170px; width: 220px; height: 80px;">
+						</div>
+						<div>
+							<label for="category">カテゴリ選択：</label>
+							<select class="form-select form-select-sm" name="category">
+								<option value="ALL">全てのカテゴリを表示</option>
+								<option value="PPE" th:selected="${category == 'PPE'}">個人防護具</option>
+								<option value="CONSUMABLES" th:selected="${category == 'CONSUMABLES'}">消耗品・清掃用品</option>
+								<option value="ADHESIVES" th:selected="${category == 'ADHESIVES'}">接着・塗装・コーティング</option>
+								<option value="PIPING" th:selected="${category == 'PIPING'}">配管・ホース関連</option>
+								<option value="ELECTRICAL" th:selected="${category == 'ELECTRICAL'}">電気・配線・計測器具</option>
+								<option value="MAINTENANCE" th:selected="${category == 'MAINTENANCE'}">設備メンテナンス用品
+								</option>
+								<option value="FASTENERS" th:selected="${category == 'FASTENERS'}">固定・取り付け・締結部品</option>
+								<option value="TOOLS" th:selected="${category == 'TOOLS'}">工具・作業器具</option>
+								<option value="SAFETY" th:selected="${category == 'SAFETY'}">安全・防災用品</option>
+								<option value="LOGISTICS" th:selected="${category == 'LOGISTICS'}">物流・運搬・収納</option>
+							</select>
+						</div>
+					</form>
+				</div>
+
+				<!-- 右側：工場マップ -->
+				<div class="col-md-6">
+					<div class="map-wrapper mb-3">
+						<img src="/images/factory-map.png" alt="工場マップ" style="width: 100%;">
+						<!-- エリア -->
+						<!-- area たち -->
+
+						<!-- 各倉庫のエリア（仮の座標） -->
+
+						<!-- 新しい % 指定のエリアたち -->
+						<div class="area" data-room="R101" style="top: 0%; left: 20%; width: 11%; height: 8%;"></div>
+						<div class="area" data-room="R102" style="top: 14.2%; left: 45.3%; width: 9.2%; height: 9.2%;">
+						</div>
+						<div class="area" data-room="R103" style="top: 8%; left: 82%; width: 6.8%; height: 28.3%;">
+						</div>
+						<div class="area" data-room="R201" style="top: 17.5%; left: 0%; width: 10%; height: 15.6%;">
+						</div>
+						<div class="area" data-room="R202" style="top: 41.7%; left: 0%; width: 6%; height: 27.7%;">
+						</div>
+						<div class="area" data-room="R203" style="top: 83.5%; left: 26.5%; width: 10.8%; height: 11%;">
+						</div>
+						<div class="area" data-room="R301"
+							style="top: 67.3%; left: 60.5%; width: 10.7%; height: 27.7%;"></div>
+						<div class="area" data-room="S100"
+							style="top: 67.5%; left: 75.5%; width: 24.5%; height: 27.3%;"></div>
+
 					</div>
 				</div>
-				<table class="table table-bordered table-hover text-center align-middle">
-					<thead class="table-secondary">
-						<tr>
-							<th>品名</th>
-							<th>総量</th>
-							<th>購入日</th>
-							<th>備考</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="item : ${itemList}" th:object="${item}">
-							<td><a th:href="@{/show(id=*{id}, roomId=${roomId}, category=${category}, page=${page})}"
-									th:text="*{name}"></a>
-							</td>
-							<td th:text="*{amount}"></td>
-							<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
-							<td th:text="*{note}"></td>
-						</tr>
-					</tbody>
-				</table>
-
-				<!-- ページネーション -->
-				<nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
-					<ul class="pagination pagination-lg">
-						<li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
-							<a class="page-link"
-								th:href="@{/team(page=${page - 1}, roomId=${roomId}, category=${category})}">&laquo;</a>
-						</li>
-
-						<li th:each="index : ${#numbers.sequence(1, totalPages)}"
-							th:classappend="${index == page} ? 'active' : ''" class="page-item">
-							<a class="page-link"
-								th:href="@{/team(page=${index}, roomId=${roomId}, category=${category})}"
-								th:text="${index}"></a>
-						</li>
-
-						<li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
-							<a class="page-link"
-								th:href="@{/team(page=${page + 1}, roomId=${roomId}, category=${category})}">&raquo;</a>
-						</li>
-					</ul>
-				</nav>
 			</div>
+
+
+
+			<table class="table table-bordered table-hover text-center align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>品名</th>
+						<th>総量</th>
+						<th>購入日</th>
+						<th>備考</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${itemList}" th:object="${item}">
+						<td><a th:href="@{/show(id=*{id}, roomId=${roomId}, category=${category}, page=${page})}"
+								th:text="*{name}"></a>
+						</td>
+						<td th:text="*{amount}"></td>
+						<td th:text="*{#temporals.format(purchasedAt, 'yyyy年MM月dd日')}"></td>
+						<td th:text="*{note}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- ページネーション -->
+			<nav th:if="${totalPages >= 2}" class="d-flex justify-content-center mt-4">
+				<ul class="pagination pagination-lg">
+					<li th:classappend="${page == 1} ? 'disabled' : ''" class="page-item">
+						<a class="page-link"
+							th:href="@{/team(page=${page - 1}, roomId=${roomId}, category=${category})}">&laquo;</a>
+					</li>
+
+					<li th:each="index : ${#numbers.sequence(1, totalPages)}"
+						th:classappend="${index == page} ? 'active' : ''" class="page-item">
+						<a class="page-link" th:href="@{/team(page=${index}, roomId=${roomId}, category=${category})}"
+							th:text="${index}"></a>
+					</li>
+
+					<li th:classappend="${page == totalPages} ? 'disabled' : ''" class="page-item">
+						<a class="page-link"
+							th:href="@{/team(page=${page + 1}, roomId=${roomId}, category=${category})}">&raquo;</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
+	</div>
 	</div>
 
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
