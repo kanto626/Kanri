@@ -34,7 +34,9 @@
 										<span class="fw-bold me-2">[[${placement.room.name}]]:</span>
 										<input class="form-control w-auto amount" name="placementList"
 											th:field="*{placementList[__${status.index}__].amount}" type="number"
-											min="0" max="999" step="1">
+											min="0" max="9999" step="1">
+											<div class="text-danger small" th:errors="*{placementList[__${status.index}__].amount}"></div>
+
 										<input name="placementList"
 											th:field="*{placementList[__${status.index}__].room.id}" type="hidden">
 										<input name="placementList"
@@ -71,6 +73,7 @@
 						<div class="mb-3">
 							<label for="formDate" class="form-label">購入日</label>
 							<input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
+							<div class="text-danger small" th:errors="*{purchasedAt}"></div>
 						</div>
 
 						<div class="mb-3">
