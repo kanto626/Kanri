@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container mt-4">
+		<div th:replace="~{parts/common::admin-header('申請内容の確認')}"></div>
+		<div class="card">
+			<div class="card-header bg-warning text-dark">
+				<h4>申請詳細と対応</h4>
+			</div>
+			<div class="card-body" th:object="${request}">
+				<p><strong>ID:</strong> <span th:text="*{id}"></span></p>
+				<p><strong>チームID:</strong>
+					<span th:switch="*{teamId}">
+						<span th:case="'T1A101'">シャーシ組立チーム (T1A101)</span>
+						<span th:case="'T2B202'">エンジン搭載チーム (T2B202)</span>
+						<span th:case="'T3C303'">トランスミッション組立チーム (T3C303)</span>
+						<span th:case="'T4D404'">駆動系・サスペンションチーム (T4D404)</span>
+						<span th:case="'T5E505'">キャビン溶接・塗装チーム (T5E505)</span>
+						<span th:case="'T6F606'">電装部品取付チーム (T6F606)</span>
+						<span th:case="'T7G707'">内装組立チーム (T7G707)</span>
+						<span th:case="'T8H808'">荷台・フレーム組立チーム (T8H808)</span>
+						<span th:case="'T9I909'">燃料系・排気システムチーム (T9I909)</span>
+						<span th:case="'T0J010'">最終組立・品質チェックチーム (T0J010)</span>
+						<span th:case="'T1K111'">完成検査チーム (T1K111)</span>
+						<span th:case="'T2L212'">防錆・防音処理チーム (T2L212)</span>
+						<span th:case="'T3M313'">特装車組立チーム (T3M313)</span>
+						<span th:case="'T4N414'">最終仕上げ・クリーニングチーム (T4N414)</span>
+						<span th:case="'T5O515'">出荷前最終チェックチーム (T5O515)</span>
+					</span>
+				</p>
+				</p>
+				<p><strong>件名:</strong> <span th:text="*{title}"></span></p>
+				<p><strong>申請内容:</strong><br><span th:text="*{content}"></span></p>
+				<form th:action="@{/admin/request/edit}" method="post" th:object="${request}">
+					<input type="hidden" th:field="*{id}">
+					<div class="mb-3">
+						<label class="form-label">対応ステータス</label>
+						<select class="form-select" th:field="*{status}">
+							<option value="PENDING" th:selected="*{status == 'PENDING'}">未処理</option>
+							<option value="APPROVED" th:selected="*{status == 'APPROVED'}">承認</option>
+							<option value="REJECTED" th:selected="*{status == 'REJECTED'}">却下</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">返信コメント</label>
+						<textarea th:field="*{responseNote}" class="form-control" rows="3"></textarea>
+					</div>
+					<div class="text-center">
+						<button class="btn btn-success">対応を保存</button>
+						<a th:href="@{/admin/request}" class="btn btn-outline-secondary ms-2">キャンセル</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

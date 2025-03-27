@@ -118,7 +118,7 @@ public class AdminController {
 			HttpSession session,
 			Model model) {
 		if (errors.hasErrors()) {
-			 model.addAttribute("categories", getCategoryList()); 
+			model.addAttribute("categories", getCategoryList());
 			return "admin/edit";
 		}
 

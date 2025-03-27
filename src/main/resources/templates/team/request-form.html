@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container mt-4">
+		<div th:replace="~{parts/common::team-header('申請フォーム')}"></div>
+		<div class="card shadow-sm">
+			<div class="card-header bg-primary text-white text-center">
+				<h4>資材申請フォーム</h4>
+			</div>
+			<div class="card-body">
+				<form th:action="@{/team/request}" method="post" th:object="${request}">
+					<div class="mb-3">
+						<label for="title" class="form-label">件名</label>
+						<input th:field="*{title}" type="text" class="form-control" maxlength="30">
+						<div class="text-danger small" th:errors="*{title}"></div>
+					</div>
+					<div class="mb-3">
+						<label for="content" class="form-label">申請内容</label>
+						<textarea th:field="*{content}" class="form-control" rows="5"></textarea>
+						<div class="text-danger small" th:errors="*{content}"></div>
+					</div>
+					<div class="text-center">
+						<button class="btn btn-primary text-white">送信</button>
+							<a th:href="@{/team(page=${session.pageNum})}"
+									class="btn btn-outline-secondary ms-2">キャンセル</a>
+					</div>
+				</form>
+				<div th:if="${statusMessage}" class="alert alert-success mt-3" th:text="${statusMessage}"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
