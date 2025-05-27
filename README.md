@@ -175,83 +175,88 @@ Kanri/
 
 ### AdminController
 
-| メソッド        | 戻り値    | 引数                                     | 説明                |
-| ----------- | ------ | -------------------------------------- | ----------------- |
-| index       | String | RequestParam Integer page, Model model | 管理者用資材一覧表示（ページ分割） |
-| add (GET)   | String | Model model                            | 資材登録フォーム表示        |
-| add (POST)  | String | Item item, Errors errors, Model model  | 資材登録処理            |
-| edit (GET)  | String | Integer id, Model model                | 資材編集フォーム表示        |
-| edit (POST) | String | Item item, Errors errors, Model model  | 資材編集処理            |
-| delete      | void   | Integer id                             | 資材削除処理            |
+| メソッド          | 戻り値      | 引数                                        | 説明                |
+| ------------- | -------- | ----------------------------------------- | ----------------- |
+| `index`       | `String` | `@RequestParam Integer page, Model model` | 管理者用資材一覧表示（ページ分割） |
+| `add (GET)`   | `String` | `Model model`                             | 資材登録フォーム表示        |
+| `add (POST)`  | `String` | `Item item, Errors errors, Model model`   | 資材登録処理            |
+| `edit (GET)`  | `String` | `Integer id, Model model`                 | 資材編集フォーム表示        |
+| `edit (POST)` | `String` | `Item item, Errors errors, Model model`   | 資材編集処理            |
+| `delete`      | `void`   | `Integer id`                              | 資材削除処理            |
+
 
 ### AdminRequestController
 
-| メソッド          | 戻り値    | 引数                                                                                             | 説明                     |
-| ------------- | ------ | ---------------------------------------------------------------------------------------------- | ---------------------- |
-| index         | String | Model model                                                                                    | 申請一覧表示（管理者画面）          |
-| edit (GET)    | String | @RequestParam("id") int id, Model model                                                        | 申請詳細画面の表示（承認または却下フォーム） |
-| edit (POST)   | String | @ModelAttribute Request request                                                                | 申請ステータス更新（承認または却下の処理）  |
-| deleteRequest | String | @RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes | 申請の削除処理と結果メッセージ設定      |
+| メソッド            | 戻り値      | 引数                                                                                               | 説明                     |
+| --------------- | -------- | ------------------------------------------------------------------------------------------------ | ---------------------- |
+| `index`         | `String` | `Model model`                                                                                    | 申請一覧表示（管理者画面）          |
+| `edit (GET)`    | `String` | `@RequestParam("id") int id, Model model`                                                        | 申請詳細画面の表示（承認または却下フォーム） |
+| `edit (POST)`   | `String` | `@ModelAttribute Request request`                                                                | 申請ステータス更新（承認または却下の処理）  |
+| `deleteRequest` | `String` | `@RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes` | 申請の削除処理と結果メッセージ設定      |
+
 
 
 ### LoginController
 
-| メソッド         | 戻り値    | 引数                                              | 説明        |
-| ------------ | ------ | ----------------------------------------------- | --------- |
-| login (GET)  | String | Model model                                     | ログインページ表示 |
-| login (POST) | String | Admin admin, Errors errors, HttpSession session | ログイン処理    |
-| logout       | void   |なし（HttpSessionはフィールドとして使用）                             | ログアウト処理   |
+| メソッド           | 戻り値      | 引数                                                | 説明        |
+| -------------- | -------- | ------------------------------------------------- | --------- |
+| `login (GET)`  | `String` | `Model model`                                     | ログインページ表示 |
+| `login (POST)` | `String` | `Admin admin, Errors errors, HttpSession session` | ログイン処理    |
+| `logout`       | `void`   | `なし（HttpSessionはフィールドとして使用）`                      | ログアウト処理   |
 
-### StaffController
+| メソッド    | 戻り値      | 引数                                               | 説明                   |
+| ------- | -------- | ------------------------------------------------ | -------------------- |
+| `index` | `String` | `String roomId, Integer categoryId, Model model` | 資材リスト表示。部屋/カテゴリで絞り込み |
+| `show`  | `String` | `Integer id, Model model`                        | 資材詳細表示               |
 
-| メソッド  | 戻り値    | 引数                                             | 説明                   |
-| ----- | ------ | ---------------------------------------------- | -------------------- |
-| index | String | String roomId, Integer categoryId, Model model | 資材リスト表示。部屋/カテゴリで絞り込み |
-| show  | String | Integer id, Model model                        | 資材詳細表示               |
 
 
 ### TeamLoginController
 
-| メソッド         | 戻り値    | 引数                              | 説明                  |
-| ------------ | ------ | ------------------------------- | ------------------- |
-| login (GET)  | String | Model model                     | ログインフォーム表示          |
-| login (POST) | String | @Valid Team team, Errors errors | ログイン認証処理（バリデーション含む） |
-| logout       | String | なし（HttpSessionはフィールドとして使用）      | ログアウト処理（セッション破棄）    |
+| メソッド           | 戻り値      | 引数                                | 説明                  |
+| -------------- | -------- | --------------------------------- | ------------------- |
+| `login (GET)`  | `String` | `Model model`                     | ログインフォーム表示          |
+| `login (POST)` | `String` | `@Valid Team team, Errors errors` | ログイン認証処理（バリデーション含む） |
+| `logout`       | `String` | `なし（HttpSessionはフィールドとして使用）`      | ログアウト処理（セッション破棄）    |
+
 
 ### TeamRequestController
 
-| メソッド     | 戻り値    | 引数                                                                      | 説明                 |
-| -------- | ------ | ----------------------------------------------------------------------- | ------------------ |
-| showForm | String | Model model                                                             | 申請フォームの表示          |
-| submit   | String | @Valid Request request, Errors errors, HttpSession session, Model model | 申請送信処理（バリデーション・登録） |
+| メソッド       | 戻り値      | 引数                                                                        | 説明                 |
+| ---------- | -------- | ------------------------------------------------------------------------- | ------------------ |
+| `showForm` | `String` | `Model model`                                                             | 申請フォームの表示          |
+| `submit`   | `String` | `@Valid Request request, Errors errors, HttpSession session, Model model` | 申請送信処理（バリデーション・登録） |
+
 
 ## service メソッド詳細
 
 ### AdminService
 
-| メソッド  | 戻り値     | 引数                                                    | 説明      |
-| ----- | ------- | ----------------------------------------------------- | ------- |
-| login | boolean | String loginId, String loginPass, HttpSession session | 管理者認証処理 |
+| メソッド    | 戻り値       | 引数                                                      | 説明      |
+| ------- | --------- | ------------------------------------------------------- | ------- |
+| `login` | `boolean` | `String loginId, String loginPass, HttpSession session` | 管理者認証処理 |
+
 
 ### ItemService
 
-| メソッド                 | 戻り値        | 引数                                | 説明          |
-| -------------------- | ---------- | --------------------------------- | ----------- |
-| getAll               | List<Item> |                                   | 全資材を取得      |
-| getByRoomId          | List<Item> | String roomId                     | 部屋指定で資材取得   |
-| getByCategoryId      | List<Item> | Integer categoryId                | カテゴリ指定で資材取得 |
-| getByRoomAndCategory | List<Item> | String roomId, Integer categoryId | 両条件で資材取得    |
-| getOneById           | Item       | Integer id                        | ID指定で資材取得   |
-| add                  | void       | Item item                         | 資材登録        |
-| edit                 | void       | Item item                         | 資材更新        |
-| deleteById           | void       | Integer id                        | 資材削除        |
+| メソッド                   | 戻り値          | 引数                                  | 説明          |
+| ---------------------- | ------------ | ----------------------------------- | ----------- |
+| `getAll`               | `List<Item>` | `なし`                                | 全資材を取得      |
+| `getByRoomId`          | `List<Item>` | `String roomId`                     | 部屋指定で資材取得   |
+| `getByCategoryId`      | `List<Item>` | `Integer categoryId`                | カテゴリ指定で資材取得 |
+| `getByRoomAndCategory` | `List<Item>` | `String roomId, Integer categoryId` | 両条件で資材取得    |
+| `getOneById`           | `Item`       | `Integer id`                        | ID指定で資材取得   |
+| `add`                  | `void`       | `Item item`                         | 資材登録        |
+| `edit`                 | `void`       | `Item item`                         | 資材更新        |
+| `deleteById`           | `void`       | `Integer id`                        | 資材削除        |
 
 ### RoomService
 
-| メソッド        | 戻り値         | 引数            | 説明                     |
-| ----------- | ----------- | ------------- | ---------------------- |
-| getAll      | List\<Room> | なし            | 全ての部屋情報を取得           |
-| getNameById | String      | String roomId | 指定された部屋IDに対応する部屋名を取得 |
+| メソッド          | 戻り値          | 引数              | 説明                   |
+| ------------- | ------------ | --------------- | -------------------- |
+| `getAll`      | `List<Room>` | `なし`            | 全ての部屋情報を取得           |
+| `getNameById` | `String`     | `String roomId` | 指定された部屋IDに対応する部屋名を取得 |
+
 
 ### RequestService
 
@@ -269,136 +274,145 @@ Kanri/
 
 ### ItemMapper
 
-| メソッド                    | 戻り値        | 引数                                | 説明          |
-| ----------------------- | ---------- | --------------------------------- | ----------- |
-| selectAll               | List<Item> |                                   | 全資材取得       |
-| selectByRoomId          | List<Item> | String roomId                     | 部屋指定で資材取得   |
-| selectByCategoryId      | List<Item> | Integer categoryId                | カテゴリ指定で資材取得 |
-| selectByRoomAndCategory | List<Item> | String roomId, Integer categoryId | 両条件で資材取得    |
-| selectById              | Item       | Integer id                        | ID指定で資材取得   |
-| insert                  | void       | Item item                         | 資材登録        |
-| update                  | void       | Item item                         | 資材更新        |
-| deleteById              | void       | Integer id                        | 資材削除        |
+| メソッド                      | 戻り値          | 引数                                  | 説明          |
+| ------------------------- | ------------ | ----------------------------------- | ----------- |
+| `selectAll`               | `List<Item>` | `なし`                                | 全資材取得       |
+| `selectByRoomId`          | `List<Item>` | `String roomId`                     | 部屋指定で資材取得   |
+| `selectByCategoryId`      | `List<Item>` | `Integer categoryId`                | カテゴリ指定で資材取得 |
+| `selectByRoomAndCategory` | `List<Item>` | `String roomId, Integer categoryId` | 両条件で資材取得    |
+| `selectById`              | `Item`       | `Integer id`                        | ID指定で資材取得   |
+| `insert`                  | `void`       | `Item item`                         | 資材登録        |
+| `update`                  | `void`       | `Item item`                         | 資材更新        |
+| `deleteById`              | `void`       | `Integer id`                        | 資材削除        |
+
 
 ### RoomMapper
 
-| メソッド      | 戻り値        | 引数 | 説明    |
-| --------- | ---------- | -- | ----- |
-| selectAll | List<Room> |    | 全部屋取得 |
+| メソッド        | 戻り値          | 引数   | 説明    |
+| ----------- | ------------ | ---- | ----- |
+| `selectAll` | `List<Room>` | `なし` | 全部屋取得 |
+
 
 ### PlacementMapper
 
-| メソッド           | 戻り値             | 引数                  | 説明            |
-| -------------- | --------------- | ------------------- | ------------- |
-| selectByItemId | List<Placement> | Integer itemId      | 資材IDに対応する配置取得 |
-| insert         | void            | Placement placement | 配置情報登録        |
-| deleteByItemId | void            | Integer itemId      | 配置情報削除        |
+| メソッド             | 戻り値               | 引数                    | 説明            |
+| ---------------- | ----------------- | --------------------- | ------------- |
+| `selectByItemId` | `List<Placement>` | `Integer itemId`      | 資材IDに対応する配置取得 |
+| `insert`         | `void`            | `Placement placement` | 配置情報登録        |
+| `deleteByItemId` | `void`            | `Integer itemId`      | 配置情報削除        |
+
 
 ### AdminMapper
 
-| メソッド            | 戻り値   | 引数             | 説明          |
-| --------------- | ----- | -------------- | ----------- |
-| selectByLoginId | Admin | String loginId | 管理者ログイン情報取得 |
+| メソッド              | 戻り値     | 引数               | 説明          |
+| ----------------- | ------- | ---------------- | ----------- |
+| `selectByLoginId` | `Admin` | `String loginId` | 管理者ログイン情報取得 |
+
 
 ## domain クラス定義
 
 ### Item.java
 
-| フィールド       | 型       | 説明   |
-| ----------- | ------- | ---- |
-| id          | Integer | 資材ID |
-| name        | String  | 資材名  |
-| purchasedAt | Date    | 購入日  |
-| loginId     | String  | 備考   |
-| loginPass   | Integer | 総数   |
+| フィールド         | 型         | 説明   |
+| ------------- | --------- | ---- |
+| `id`          | `Integer` | 資材ID |
+| `name`        | `String`  | 資材名  |
+| `purchasedAt` | `Date`    | 購入日  |
+| `loginId`     | `String`  | 備考   |
+| `loginPass`   | `Integer` | 総数   |
+
 
 ### Room.java
 
-| フィールド | 型      | 説明   |
-| ----- | ------ | ---- |
-| id    | String | 場所ID |
-| name  | String | 場所名  |
+| フィールド  | 型        | 説明   |
+| ------ | -------- | ---- |
+| `id`   | `String` | 場所ID |
+| `name` | `String` | 場所名  |
+
 
 ### Placement.java
 
-| フィールド  | 型       | 説明   |
-| ------ | ------- | ---- |
-| item   | Item    | 資材   |
-| room   | Room    | 場所   |
-| amount | Integer | 配置数量 |
+| フィールド    | 型         | 説明   |
+| -------- | --------- | ---- |
+| `item`   | `Item`    | 資材   |
+| `room`   | `Room`    | 場所   |
+| `amount` | `Integer` | 配置数量 |
+
 
 ### Admin.java
 
-| フィールド     | 型       | 説明         |
-| --------- | ------- | ---------- |
-| id        | Integer | 管理者ID      |
-| loginId   | String  | ログインID     |
-| loginPass | String  | 暗号化済みパスワード |
-| name      | String  | 管理者名       |
+| フィールド       | 型         | 説明         |
+| ----------- | --------- | ---------- |
+| `id`        | `Integer` | 管理者ID      |
+| `loginId`   | `String`  | ログインID     |
+| `loginPass` | `String`  | 暗号化済みパスワード |
+| `name`      | `String`  | 管理者名       |
+
 
 ## 認証フィルター
 
 ### AuthFilter.java
 
-| メソッド     | 説明                            |
-| -------- | ----------------------------- |
-| doFilter | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
+| メソッド       | 説明                            |
+| ---------- | ----------------------------- |
+| `doFilter` | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
 
 ## データベース情報
 
-| No | データベース名       | 文字コード   | 照合順序                 |
-| -- | ------------- | ------- | -------------------- |
-| 1  | materials\_db | utf8mb4 | utf8mb4\_general\_ci |
+| No | データベース名        | 文字コード     | 照合順序                 |
+| -- | -------------- | --------- | -------------------- |
+| 1  | `materials_db` | `utf8mb4` | `utf8mb4_general_ci` |
 
 ### テーブル一覧
 
-| No | テーブル名             | 内容             | データベースNo |
-| -- | ----------------- | -------------- | -------- |
-| 1  | admins            | 管理者のログイン情報     | 1        |
-| 2  | departments       | 社員(ライン)のログイン情報 | 1        |
-| 3  | items             | 資材情報           | 1        |
-| 4  | rooms             | 場所情報           | 1        |
-| 5  | placements        | 配置場所と数量の情報     | 1        |
-| 6  | department\_rooms | ラインごとの資材場所情報   | 1        |
+| No | テーブル名              | 内容             | データベースNo |
+| -- | ------------------ | -------------- | -------- |
+| 1  | `admins`           | 管理者のログイン情報     | 1        |
+| 2  | `departments`      | 社員(ライン)のログイン情報 | 1        |
+| 3  | `items`            | 資材情報           | 1        |
+| 4  | `rooms`            | 場所情報           | 1        |
+| 5  | `placements`       | 配置場所と数量の情報     | 1        |
+| 6  | `department_rooms` | ラインごとの資材場所情報   | 1        |
 
 ### テーブル定義：admins
-| カラム名        | 型           | オプション   | 内容            |
-| ----------- | ----------- | ------- | ------------- |
-| login\_id   | VARCHAR(10) | プライマリキー | ログインID        |
-| login\_pass | CHAR(60)    | 必須      | パスワード（BCrypt） |
-| name        | VARCHAR(30) | 必須      | 表示用の名前        |
+| カラム名         | 型             | オプション   | 内容              |
+| ------------ | ------------- | ------- | --------------- |
+| `login_id`   | `VARCHAR(10)` | プライマリキー | ログインID          |
+| `login_pass` | `CHAR(60)`    | 必須      | パスワード（`BCrypt`） |
+| `name`       | `VARCHAR(30)` | 必須      | 表示用の名前          |
 
 ### テーブル定義：departments
-| カラム名     | 型           | オプション   | 内容            |
-| -------- | ----------- | ------- | ------------- |
-| id       | VARCHAR(10) | プライマリキー | ログインID        |
-| line\_id | CHAR(6)     | ユニーク、必須 | パスワード（BCrypt） |
-| name     | VARCHAR(30) | 必須      | 表示用の名前        |
+| カラム名      | 型             | オプション   | 内容              |
+| --------- | ------------- | ------- | --------------- |
+| `id`      | `VARCHAR(10)` | プライマリキー | ログインID          |
+| `line_id` | `CHAR(6)`     | ユニーク、必須 | パスワード（`BCrypt`） |
+| `name`    | `VARCHAR(30)` | 必須      | 表示用の名前          |
 
 ### テーブル定義：items
-| カラム名          | 型            | オプション    | 内容     |
-| ------------- | ------------ | -------- | ------ |
-| id            | INT          | 主キー、自動連番 | 資材ID   |
-| name          | VARCHAR(30)  | 必須       | 資材品名   |
-| purchased\_at | DATE         | 必須       | 資材の購入日 |
-| note          | VARCHAR(255) |          | 備考     |
+| カラム名           | 型              | オプション    | 内容     |
+| -------------- | -------------- | -------- | ------ |
+| `id`           | `INT`          | 主キー、自動連番 | 資材ID   |
+| `name`         | `VARCHAR(30)`  | 必須       | 資材品名   |
+| `purchased_at` | `DATE`         | 必須       | 資材の購入日 |
+| `note`         | `VARCHAR(255)` |          | 備考     |
 
 ### テーブル定義：rooms
-| カラム名 | 型           | オプション   | 内容    |
-| ---- | ----------- | ------- | ----- |
-| id   | CHAR(4)     | プライマリキー | 場所ID  |
-| name | VARCHAR(30) | 必須      | 場所の名前 |
+| カラム名   | 型             | オプション   | 内容    |
+| ------ | ------------- | ------- | ----- |
+| `id`   | `CHAR(4)`     | プライマリキー | 場所ID  |
+| `name` | `VARCHAR(30)` | 必須      | 場所の名前 |
 
 ### テーブル定義：placements
-| カラム名     | 型           | オプション   | 内容   |
-| -------- | ----------- | ------- | ---- |
-| item\_id | INT         | プライマリキー | 資材ID |
-| room\_id | VARCHAR(30) | プライマリキー | 場所ID |
-| amount   | DATE        | 必須      | 数量   |
+| カラム名      | 型             | オプション   | 内容                  |
+| --------- | ------------- | ------- | ------------------- |
+| `item_id` | `INT`         | プライマリキー | 資材ID                |
+| `room_id` | `VARCHAR(30)` | プライマリキー | 場所ID                |
+| `amount`  | `DATE`        | 必須      | 数量（※型に誤りがあるかもしれません） |
 
 ### テーブル定義：department_rooms
-| カラム名           | 型       | オプション | 内容      |
-| -------------- | ------- | ----- | ------- |
-| department\_id | INT     |       | 所属ラインID |
-| room\_id       | CHAR(4) |       | 場所ID    |
+| カラム名            | 型         | オプション | 内容      |
+| --------------- | --------- | ----- | ------- |
+| `department_id` | `INT`     |       | 所属ラインID |
+| `room_id`       | `CHAR(4)` |       | 場所ID    |
+
 
