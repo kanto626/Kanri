@@ -118,7 +118,7 @@ Kanri/
 ```
 
 
-## パッケージ構成（`com.example.app`）
+## 📦 パッケージ構成（`com.example.app`）
 
 ### config パッケージ
 
@@ -189,10 +189,7 @@ Kanri/
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
 ## 🧭 AdminController 概要
-
-- 管理者用資材管理画面を担当するコントローラー
-- すべてのルーティングパスは `/admin` をプレフィックスとして持つ
-  （`@RequestMapping("/admin")`）
+- 管理者用資材管理画面を担当するコントローラー（`@RequestMapping("/admin")`）
 
 | フィールド名        | 型             | 説明                         |
 | ------------- | ------------- | -------------------------- |
@@ -211,10 +208,7 @@ Kanri/
 
 
 ## 🧭 AdminRequestController 概要
-
-- 管理者用の申請管理を担当するコントローラー
-- すべてのルーティングパスは /admin/request をプレフィックスとして持つ
-（@RequestMapping("/admin/request")）
+- 管理者用の申請管理を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | フィールド名           | 型                | 説明                           |
 | ---------------- | ---------------- | ---------------------------- |
@@ -229,11 +223,7 @@ Kanri/
 
 
 ## 🧭 LoginController 概要
-
-- 管理者のログイン・ログアウト機能を担当するコントローラー
-- すべてのルーティングパスは /admin/request をプレフィックスとして持つ
-（@RequestMapping("/admin/request")）
-
+- 管理者のログイン・ログアウト機能を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | メソッド           | 戻り値      | 引数                                                | 説明        |
 | -------------- | -------- | ------------------------------------------------- | --------- |
@@ -247,8 +237,13 @@ Kanri/
 | `show`  | `String` | `Integer id, Model model`                        | 資材詳細表示               |
 
 
+## 🧭 TeamLoginController 概要
+- チーム用ログイン機能を担当するコントローラー（@RequestMapping("/team")）
 
-### TeamLoginController
+| フィールド名        | 型             | 説明                   |
+| ------------- | ------------- | -------------------- |
+| `teamService` | `TeamService` | チーム情報の認証処理を担当するサービス層 |
+| `session`     | `HttpSession` | ログイン状態管理のためにセッションを使用 |
 
 | メソッド           | 戻り値      | 引数                                | 説明                  |
 | -------------- | -------- | --------------------------------- | ------------------- |
@@ -257,54 +252,83 @@ Kanri/
 | `logout`       | `String` | `なし（HttpSessionはフィールドとして使用）`      | ログアウト処理（セッション破棄）    |
 
 
-### TeamRequestController
+## 🧭 TeamRequestController 概要
+- チームメンバー向けの申請フォームと申請送信処理を担当するコントローラー
+
+| フィールド名           | 型                | 説明                     |
+| ---------------- | ---------------- | ---------------------- |
+| `requestService` | `RequestService` | 申請情報の作成などのサービス層との連携を担当 |
 
 | メソッド       | 戻り値      | 引数                                                                        | 説明                 |
 | ---------- | -------- | ------------------------------------------------------------------------- | ------------------ |
 | `showForm` | `String` | `Model model`                                                             | 申請フォームの表示          |
 | `submit`   | `String` | `@Valid Request request, Errors errors, HttpSession session, Model model` | 申請送信処理（バリデーション・登録） |
 
+## domain クラス定義
 
-## service メソッド詳細
+### Admin.java
 
-### AdminService
+| フィールド       | 型         | 説明         |
+| ----------- | --------- | ---------- |
+| `id`        | `Integer` | 管理者ID      |
+| `loginId`   | `String`  | ログインID     |
+| `loginPass` | `String`  | 暗号化済みパスワード |
+| `name`      | `String`  | 管理者名       |
 
-| メソッド    | 戻り値       | 引数                                                      | 説明      |
-| ------- | --------- | ------------------------------------------------------- | ------- |
-| `login` | `boolean` | `String loginId, String loginPass, HttpSession session` | 管理者認証処理 |
+### Item.java
+
+| フィールド         | 型         | 説明   |
+| ------------- | --------- | ---- |
+| `id`          | `Integer` | 資材ID |
+| `name`        | `String`  | 資材名  |
+| `purchasedAt` | `Date`    | 購入日  |
+| `loginId`     | `String`  | 備考   |
+| `loginPass`   | `Integer` | 総数   |
+
+### Placement.java
+
+| フィールド    | 型         | 説明   |
+| -------- | --------- | ---- |
+| `item`   | `Item`    | 資材   |
+| `room`   | `Room`    | 場所   |
+| `amount` | `Integer` | 配置数量 |
+
+### Room.java
+
+| フィールド  | 型        | 説明   |
+| ------ | -------- | ---- |
+| `id`   | `String` | 場所ID |
+| `name` | `String` | 場所名  |
+
+### Request.java
+
+| フィールド          | 型               | 説明                                      |
+| -------------- | --------------- | --------------------------------------- |
+| `id`           | `Integer`       | 申請ID                                    |
+| `teamId`       | `String`        | 申請したチームのID                              |
+| `title`        | `String`        | 申請タイトル（30文字以内、必須）                       |
+| `content`      | `String`        | 申請内容（必須）                                |
+| `status`       | `String`        | 申請のステータス（PENDING / APPROVED / REJECTED） |
+| `responseNote` | `String`        | 管理者からの返信メモ                              |
+| `requestedAt`  | `LocalDateTime` | 申請日時                                    |
+
+### Team.java
+
+| フィールド       | 型        | 説明               |
+| ----------- | -------- | ---------------- |
+| `id`        | `String` | チームID（ログインID、必須） |
+| `roomId`    | `String` | チームが所属する場所のID    |
+| `loginPass` | `String` | ログインパスワード（必須）    |
+| `name`      | `String` | チーム名             |
 
 
-### ItemService
 
-| メソッド                   | 戻り値          | 引数                                  | 説明          |
-| ---------------------- | ------------ | ----------------------------------- | ----------- |
-| `getAll`               | `List<Item>` | `なし`                                | 全資材を取得      |
-| `getByRoomId`          | `List<Item>` | `String roomId`                     | 部屋指定で資材取得   |
-| `getByCategoryId`      | `List<Item>` | `Integer categoryId`                | カテゴリ指定で資材取得 |
-| `getByRoomAndCategory` | `List<Item>` | `String roomId, Integer categoryId` | 両条件で資材取得    |
-| `getOneById`           | `Item`       | `Integer id`                        | ID指定で資材取得   |
-| `add`                  | `void`       | `Item item`                         | 資材登録        |
-| `edit`                 | `void`       | `Item item`                         | 資材更新        |
-| `deleteById`           | `void`       | `Integer id`                        | 資材削除        |
+## 🛡️ AuthFilter 概要
+- 管理者・チームユーザーの認証チェックを行うフィルター
 
-### RoomService
-
-| メソッド          | 戻り値          | 引数              | 説明                   |
-| ------------- | ------------ | --------------- | -------------------- |
-| `getAll`      | `List<Room>` | `なし`            | 全ての部屋情報を取得           |
-| `getNameById` | `String`     | `String roomId` | 指定された部屋IDに対応する部屋名を取得 |
-
-
-### RequestService
-
-| メソッド名                 | 戻り値             | 引数                | 説明                    |
-| --------------------- | --------------- | ----------------- | --------------------- |
-| `create()`            | `void`          | `Request request` | 新しい申請データを登録           |
-| `getAll()`            | `List<Request>` | なし                | すべての申請データを取得          |
-| `getByTeamId()`       | `List<Request>` | `String teamId`   | 指定されたチームIDに紐づく申請一覧を取得 |
-| `getById()`           | `Request`       | `int id`          | 申請IDから1件の申請データを取得     |
-| `updateStatus()`      | `void`          | `Request request` | 申請の承認/却下など、ステータスを更新   |
-| `deleteRequestById()` | `void`          | `int id`          | 指定された申請IDの申請データを削除    |
+| メソッド       | 説明                            |
+| ---------- | ----------------------------- |
+| `doFilter` | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
 
 
 ## mapper メソッド詳細
@@ -346,53 +370,70 @@ Kanri/
 | `selectByLoginId` | `Admin` | `String loginId` | 管理者ログイン情報取得 |
 
 
-## domain クラス定義
 
-### Item.java
+## 🛠️ AdminService　概要
+- 管理者のログイン認証を行うサービス
+- 主な機能：ログイン情報の検証、認証成功時にセッションへ情報格納
 
-| フィールド         | 型         | 説明   |
-| ------------- | --------- | ---- |
-| `id`          | `Integer` | 資材ID |
-| `name`        | `String`  | 資材名  |
-| `purchasedAt` | `Date`    | 購入日  |
-| `loginId`     | `String`  | 備考   |
-| `loginPass`   | `Integer` | 総数   |
+| メソッド    | 戻り値       | 引数                                                      | 説明      |
+| ------- | --------- | ------------------------------------------------------- | ------- |
+| `login` | `boolean` | `String loginId, String loginPass, HttpSession session` | 管理者認証処理 |
 
 
-### Room.java
+## 🛠️ ItemService　概要
+- 資材（Item）の取得、登録、更新、削除を扱うサービス
+- 主な機能：資材情報の管理全般、ページ制御、検索、分類表示
 
-| フィールド  | 型        | 説明   |
-| ------ | -------- | ---- |
-| `id`   | `String` | 場所ID |
-| `name` | `String` | 場所名  |
+| メソッド                             | 戻り値          | 引数                               | 説明                        |
+| -------------------------------- | ------------ | -------------------------------- | ------------------------- |
+| `getAll`                         | `List<Item>` | なし                               | 全資材を取得                    |
+| `getOneById`                     | `Item`       | `int id`                         | 資材IDで資材情報を1件取得            |
+| `getByRoomId`                    | `List<Item>` | `String roomId`                  | 部屋IDで資材リストを取得             |
+| `getByPage`                      | `List<Item>` | `int page`                       | ページ番号で資材リストを取得            |
+| `getByRoomIdAndPage`             | `List<Item>` | `String roomId, int page`        | 部屋IDとページ番号で資材リストを取得       |
+| `setNumPerPage`                  | `void`       | `int numPerPage`                 | 1ページあたりの表示件数を設定           |
+| `getNumPerPage`                  | `int`        | なし                               | 1ページあたりの表示件数を取得           |
+| `getTotalPages`                  | `int`        | なし                               | 全資材の総ページ数を取得              |
+| `getTotlaPagesByRoomId`          | `int`        | `String roomId`                  | 部屋IDで絞り込んだ資材の総ページ数を取得     |
+| `deleteById`                     | `void`       | `int id`                         | 資材IDで資材を削除                |
+| `add`                            | `void`       | `Item item`                      | 資材を登録し、倉庫に配置              |
+| `edit`                           | `void`       | `Item item`                      | 資材および配置情報を更新（数量が0なら配置削除）  |
+| `getOneByIdToEdit`               | `Item`       | `int id`                         | 編集用に資材情報（配置情報含む）を取得       |
+| `getByCategoryAndRoom`           | `List<Item>` | `String category, String roomId` | カテゴリと部屋IDで資材リストを取得        |
+| `getTotlaPagesByCategoryAndRoom` | `int`        | `String category, String roomId` | カテゴリと部屋IDに該当する資材の総ページ数を取得 |
+| `getByCategory`                  | `List<Item>` | `String category, Integer page`  | カテゴリ指定＋ページ番号で資材リストを取得     |
+| `getTotalPagesByCategory`        | `int`        | `String category`                | カテゴリ指定で資材の総ページ数を取得        |
+
+## 🛠️ RequestService　概要
+- 申請（Request）の新規登録・取得・ステータス更新・削除を行うサービス
+- 主な機能：チーム別・全体の申請表示、承認処理、削除処理
+
+| メソッド                | 戻り値             | 引数                | 説明              |
+| ------------------- | --------------- | ----------------- | --------------- |
+| `create`            | `void`          | `Request request` | 新しい申請を追加        |
+| `getAll`            | `List<Request>` | なし                | 全申請を取得（管理者用）    |
+| `getByTeamId`       | `List<Request>` | `String teamId`   | チームごとの申請を取得     |
+| `getById`           | `Request`       | `int id`          | ID指定で申請を1件取得    |
+| `updateStatus`      | `void`          | `Request request` | ステータスと返信コメントを更新 |
+| `deleteRequestById` | `void`          | `int id`          | ID指定で申請を削除      |
 
 
-### Placement.java
+## 🛠️ RoomService　概要
+- 部屋情報（Room）の取得を行うサービス
+- 主な機能：部屋の一覧取得、IDから部屋名を取得
 
-| フィールド    | 型         | 説明   |
-| -------- | --------- | ---- |
-| `item`   | `Item`    | 資材   |
-| `room`   | `Room`    | 場所   |
-| `amount` | `Integer` | 配置数量 |
+| メソッド          | 戻り値          | 引数              | 説明                   |
+| ------------- | ------------ | --------------- | -------------------- |
+| `getAll`      | `List<Room>` | `なし`            | 全ての部屋情報を取得           |
+| `getNameById` | `String`     | `String roomId` | 指定された部屋IDに対応する部屋名を取得 |
 
+## 🛠️ TeamService　概要
+- チームのログイン認証を行うサービス
+- 主な機能：ID・パスワードの検証、認証成功時のセッション設定
 
-### Admin.java
-
-| フィールド       | 型         | 説明         |
-| ----------- | --------- | ---------- |
-| `id`        | `Integer` | 管理者ID      |
-| `loginId`   | `String`  | ログインID     |
-| `loginPass` | `String`  | 暗号化済みパスワード |
-| `name`      | `String`  | 管理者名       |
-
-
-## 認証フィルター
-
-### AuthFilter.java
-
-| メソッド       | 説明                            |
-| ---------- | ----------------------------- |
-| `doFilter` | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
+| メソッド    | 戻り値       | 引数                                                     | 説明                                        |
+| ------- | --------- | ------------------------------------------------------ | ----------------------------------------- |
+| `login` | `boolean` | `String id`, `String loginPass`, `HttpSession session` | IDとパスワードが正しいかを判定し、成功時はセッションにチーム名を格納、結果を返す |
 
 ## データベース情報
 
@@ -400,7 +441,7 @@ Kanri/
 | -- | -------------- | --------- | -------------------- |
 | 1  | `materials_db` | `utf8mb4` | `utf8mb4_general_ci` |
 
-### テーブル一覧
+##　📚 テーブル一覧
 
 | No | テーブル名              | 内容             | データベースNo |
 | -- | ------------------ | -------------- | -------- |
@@ -452,4 +493,15 @@ Kanri/
 | `department_id` | `INT`     |       | 所属ラインID |
 | `room_id`       | `CHAR(4)` |       | 場所ID    |
 
+### テーブル定義：requests
+
+| カラム名            | 型             | オプション                      | 内容                                   |
+| --------------- | ------------- | -------------------------- | ------------------------------------ |
+| `id`            | `INT`         | プライマリキー / AUTO\_INCREMENT  | 申請ID（自動採番）                           |
+| `team_id`       | `CHAR(4)`     | NOT NULL / 外部キー            | 申請したチームのID（`teams.id`と紐づく）           |
+| `title`         | `VARCHAR(30)` | NOT NULL                   | 申請タイトル                               |
+| `content`       | `TEXT`        | NOT NULL                   | 申請内容                                 |
+| `status`        | `VARCHAR(10)` | DEFAULT 'PENDING'          | 申請の状態（PENDING / APPROVED / REJECTED） |
+| `response_note` | `TEXT`        | NULL 可                     | 管理者からの返信コメント                         |
+| `requested_at`  | `DATETIME`    | DEFAULT CURRENT\_TIMESTAMP | 申請日時                                 |
 
