@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{parts/common::head}"></head>
+
+<body>
+	<div class="container mt-4">
+		<div th:replace="~{parts/common::admin-header('申請一覧')}"></div>
+		<h3 class="mb-3">チームからの申請一覧</h3>
+		<table class="table table-bordered table-hover text-center">
+			<thead class="table-secondary">
+				<tr>
+					<th>チームID</th>
+					<th>件名</th>
+					<th>状態</th>
+					<th>申請日時</th>
+					<th>操作</th>
+					<th>削除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="req : ${requestList}">
+					<td th:switch="${req.teamId}">
+						<span th:case="'T1A101'">シャーシ組立チーム (T1A101)</span>
+						<span th:case="'T2B202'">エンジン搭載チーム (T2B202)</span>
+						<span th:case="'T3C303'">トランスミッション組立チーム (T3C303)</span>
+						<span th:case="'T4D404'">駆動系・サスペンションチーム (T4D404)</span>
+						<span th:case="'T5E505'">キャビン溶接・塗装チーム (T5E505)</span>
+						<span th:case="'T6F606'">電装部品取付チーム (T6F606)</span>
+						<span th:case="'T7G707'">内装組立チーム (T7G707)</span>
+						<span th:case="'T8H808'">荷台・フレーム組立チーム (T8H808)</span>
+						<span th:case="'T9I909'">燃料系・排気システムチーム (T9I909)</span>
+						<span th:case="'T0J010'">最終組立・品質チェックチーム (T0J010)</span>
+						<span th:case="'T1K111'">完成検査チーム (T1K111)</span>
+						<span th:case="'T2L212'">防錆・防音処理チーム (T2L212)</span>
+						<span th:case="'T3M313'">特装車組立チーム (T3M313)</span>
+						<span th:case="'T4N414'">最終仕上げ・クリーニングチーム (T4N414)</span>
+						<span th:case="'T5O515'">出荷前最終チェックチーム (T5O515)</span>
+					</td>
+					<td th:text="${req.title}"></td>
+					<td th:switch="${req.status}">
+						<span th:case="'PENDING'">未承認</span>
+						<span th:case="'APPROVED'">承認済み</span>
+						<span th:case="'REJECTED'">却下</span>
+						<span th:case="*">不明</span>
+					</td>
+					<td th:text="${#temporals.format(req.requestedAt, 'yyyy-MM-dd HH:mm')}"></td>
+					<td><a th:href="@{/admin/request/edit(id=${req.id})}" class="btn btn-sm btn-warning">対応</a></td>
+					<td>
+						<a th:href="@{/admin/request/delete(id=${req.id})}" class="btn btn-danger btn-sm delete">
+							<i class="bi bi-trash3"></i>
+						</a>
+
+					</td>
+				</tr>
+			</tbody>
+			<!-- 申請が0件のときの表示 -->
+			<tr th:if="${#lists.isEmpty(requestList)}">
+				<td colspan="7" class="text-center text-muted">現在、申請はありません。</td>
+			</tr>
+		</table>
+		<div class="text-center">
+			<a th:href="@{/admin}" class="btn btn-outline-secondary ms-2">戻る</a>
+		</div>
+	</div>
+	<script>
+		document.querySelectorAll('.delete').forEach(button => {
+			button.addEventListener('click', e => {
+				if (!confirm('本当に削除しますか？')) {
+					e.preventDefault();
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>

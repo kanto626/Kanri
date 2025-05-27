@@ -45,15 +45,16 @@
 							</div>
 
 							<div class="mb-3">
-								<label for="formAmount" class="form-label">総量</label>
-								<input th:field="*{amount}" type="number" id="formAmount" min="0" max="999" step="1"
+								<label for="formAmount" class="form-label" required>総量</label>
+								<input th:field="*{amount}" type="number" id="formAmount" min="0" max="9999" step="1"
 									class="form-control">
 								<div class="text-danger small" th:errors="*{amount}"></div>
 							</div>
 
 							<div class="mb-3">
-								<label for="formDate" class="form-label">購入日</label>
+								<label for="formDate" class="form-label" required>購入日</label>
 								<input th:field="*{purchasedAt}" type="date" id="formDate" class="form-control">
+								<div class="text-danger small" th:errors="*{purchasedAt}"></div>
 							</div>
 
 							<div class="mb-3">
