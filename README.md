@@ -78,7 +78,29 @@
 
 ## 📁 プロジェクト構成 (一部)
 
-<pre> ```plaintext Kanri/ ├── src/ │ └── main/ │ ├── java/ │ │ └── com/example/app/ │ │ ├── config/ # アプリ全体の設定クラス（認証、バリデーション設定など） │ │ ├── controller/ # HTTPリクエスト処理（画面とやりとり） │ │ ├── domain/ # ドメインモデル（エンティティ） │ │ ├── filter/ # リクエストの前処理・後処理用フィルター │ │ ├── mapper/ # MyBatis用Mapperインターフェース │ │ ├── service/ # ビジネスロジックを担当 │ │ └── KanriApplication.java # アプリ起動クラス（mainメソッド） │ └── resources/ │ ├── mybatis/ # Mapper XMLファイル（SQL記述） │ ├── static/ # 静的リソース（CSS, JS, 画像など） │ ├── templates/ # HTMLテンプレート（Thymeleafなど） │ ├── application.properties # アプリケーション設定 │ └── validation.properties # バリデーションエラーメッセージ定義 ├── pom.xml # Mavenビルド設定・依存ライブラリ ``` </pre>
+```
+Kanri/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/example/app/
+│       │       ├── config/             # アプリ全体の設定クラス（認証、バリデーション設定など）
+│       │       ├── controller/         # HTTPリクエスト処理（画面とやりとり）
+│       │       ├── domain/             # ドメインモデル（エンティティ）
+│       │       ├── filter/             # リクエストの前処理・後処理用フィルター
+│       │       ├── mapper/             # MyBatis用Mapperインターフェース
+│       │       ├── service/            # ビジネスロジックを担当
+│       │       └── KanriApplication.java # アプリ起動クラス（mainメソッド）
+│       └── resources/
+│           ├── mybatis/               # Mapper XMLファイル（SQL記述）
+│           ├── static/                # 静的リソース（CSS, JS, 画像など）
+│           ├── templates/             # HTMLテンプレート（Thymeleafなど）
+│           ├── application.properties # アプリケーション設定
+│           └── validation.properties  # バリデーションエラーメッセージ定義
+├── pom.xml                            # Mavenビルド設定・依存ライブラリ
+```
+
+
 ## パッケージ構成（`com.example.app`）
 
 ### controller パッケージ
