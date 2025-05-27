@@ -188,18 +188,11 @@ Kanri/
 
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
-## controller メソッド詳細
-
-### AdminController
 ## 🧭 AdminController 概要
 
-- 管理者用資材管理画面を担当するコントローラー。
-- すべてのルーティングパスは `/admin` をプレフィックスとして持つ。
+- 管理者用資材管理画面を担当するコントローラー
+- すべてのルーティングパスは `/admin` をプレフィックスとして持つ
   （`@RequestMapping("/admin")`）
-
-依存：
-- `ItemService`
-- `HttpSession`
 
 | フィールド名        | 型             | 説明                         |
 | ------------- | ------------- | -------------------------- |
@@ -217,7 +210,15 @@ Kanri/
 | `delete`      | `void`   | `Integer id`                              | 資材削除処理            |
 
 
-### AdminRequestController
+## 🧭 AdminRequestController 概要
+
+- 管理者用の申請管理を担当するコントローラー
+- すべてのルーティングパスは /admin/request をプレフィックスとして持つ
+（@RequestMapping("/admin/request")）
+
+| フィールド名           | 型                | 説明                           |
+| ---------------- | ---------------- | ---------------------------- |
+| `requestService` | `RequestService` | 申請情報の取得、承認・却下、削除などを担当するサービス層 |
 
 | メソッド            | 戻り値      | 引数                                                                                               | 説明                     |
 | --------------- | -------- | ------------------------------------------------------------------------------------------------ | ---------------------- |
@@ -227,8 +228,12 @@ Kanri/
 | `deleteRequest` | `String` | `@RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes` | 申請の削除処理と結果メッセージ設定      |
 
 
+## 🧭 LoginController 概要
 
-### LoginController
+- 管理者のログイン・ログアウト機能を担当するコントローラー
+- すべてのルーティングパスは /admin/request をプレフィックスとして持つ
+（@RequestMapping("/admin/request")）
+
 
 | メソッド           | 戻り値      | 引数                                                | 説明        |
 | -------------- | -------- | ------------------------------------------------- | --------- |
