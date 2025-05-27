@@ -92,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public int getTotlaPagesByRoomId(String roomId) {
+	public int getTotalPagesByRoomId(String roomId) {
 		int totalCount = placementMapper.countByRoomId(roomId).intValue();
 		return (int) Math.ceil((double) totalCount / numPerPage);
 	}
@@ -154,7 +154,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public int getTotlaPagesByCategoryAndRoom(String category, String roomId) {
+	public int getTotalPagesByCategoryAndRoom(String category, String roomId) {
 	    int totalCount = itemMapper.countByCategoryAndRoom(category, roomId).intValue();
 	    return (int) Math.ceil((double) totalCount / numPerPage);
 	}

@@ -57,7 +57,7 @@ public class StaffController {
 		if (!category.equals("ALL") && !roomId.equals("ALL")) {
 		    // 🔹 カテゴリ & 倉庫 両方のフィルタを適用
 		    itemList = itemService.getByCategoryAndRoom(category, roomId);
-		    totalPages = itemService.getTotlaPagesByCategoryAndRoom(category, roomId);
+		    totalPages = itemService.getTotalPagesByCategoryAndRoom(category, roomId);
 		} else if (!category.equals("ALL")) {
 		    // 🔹 カテゴリのみでフィルタ
 		    itemList = itemService.getByCategory(category, page);
@@ -65,7 +65,7 @@ public class StaffController {
 		} else if (!roomId.equals("ALL")) {
 		    // 🔹 倉庫のみでフィルタ
 		    itemList = itemService.getByRoomIdAndPage(roomId, page);
-		    totalPages = itemService.getTotlaPagesByRoomId(roomId);
+		    totalPages = itemService.getTotalPagesByRoomId(roomId);
 		} else {
 		    // 🔹 すべてのアイテムを取得
 		    itemList = itemService.getByPage(page);

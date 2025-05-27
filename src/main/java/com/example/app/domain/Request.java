@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Data
+@Data // 申請情報を保持するためのクラス
 public class Request {
     private Integer id;
     private String teamId;

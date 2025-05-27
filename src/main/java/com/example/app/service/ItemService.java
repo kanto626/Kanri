@@ -29,7 +29,7 @@ public interface ItemService {
 	int getTotalPages();
 
 	// 場所IDで絞り込んだ資材リストを表示するにあたって必要なページ数を返す
-	int getTotlaPagesByRoomId(String roomId);
+	int getTotalPagesByRoomId(String roomId);
 
 	// 資材ID を元に、資材情報の削除を行う
 	void deleteById(int id);
@@ -48,7 +48,7 @@ public interface ItemService {
 	List<Item> getByCategoryAndRoom(String category, String roomId);
 
 	// 指定されたカテゴリと部屋に含まれる資材の総ページ数を取得
-	int getTotlaPagesByCategoryAndRoom(String category, String roomId);
+	int getTotalPagesByCategoryAndRoom(String category, String roomId);
 
 	// 指定されたカテゴリに属する資材のリストを、ページネーションを考慮して取得
 	List<Item> getByCategory(String category, Integer page);
