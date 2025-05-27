@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ValidationConfig implements WebMvcConfigurer {
 
-	// バリデーションメッセージのカスタマイズ
+	// validation.properties を有効化
 	@Override
 	public Validator getValidator() {
 		var validator = new LocalValidatorFactoryBean();
@@ -18,11 +18,16 @@ public class ValidationConfig implements WebMvcConfigurer {
 		return validator;
 	}
 
-	@Bean
+	@Bean // 戻り値 messageSource()をSpringの管理対象として登録
 	ResourceBundleMessageSource messageSource() {
 		var messageSource = new ResourceBundleMessageSource();
+		 // resources/validation.properties を参照
 		messageSource.setBasename("validation");
 		return messageSource;
 	}
 
 }
+/*
+ getValidator() は 親インターフェースで定義されているため
+ 　オーバーライドしてカスタマイズする
+ */
