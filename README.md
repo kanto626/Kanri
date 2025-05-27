@@ -47,7 +47,7 @@
 | ------ | ----------- | -------------------- |
 | FA04-1 | 資材リストのページ分割 | 1ページ10件表示、ページ番号で移動可能 |
 
-## 社員向け機能一覧
+## 社員(作業員)向け機能一覧
 
 ### FS01 ユーザー認証機能
 
@@ -103,43 +103,55 @@ Kanri/
 
 ## パッケージ構成（`com.example.app`）
 
+### config パッケージ
+
+* `ValidationConfig.java`：入力バリデーション設定
+* `FilterConfig.java`：認証フィルター設定
+
 ### controller パッケージ
 
-* `StaffController.java`：一般社員向けページのリクエストを処理
+
 * `AdminController.java`：管理者向けページのリクエスト処理（登録・編集・削除）
+* `AdminRequestController.java`：管理者向け申請ページのリクエスト処理
 * `LoginController.java`：管理者のログイン・ログアウト処理
-
-### service パッケージ
-
-* `ItemService.java`：資材操作インターフェース
-* `ItemServiceImpl.java`：資材操作実装
-* `RoomService.java`：部屋操作インターフェース
-* `RoomServiceImpl.java`：部屋操作実装
-* `AdminService.java`：管理者認証処理インターフェース
-* `AdminServiceImpl.java`：管理者認証処理実装
-
-### mapper パッケージ
-
-* `ItemMapper.java`：itemsテーブル操作
-* `RoomMapper.java`：roomsテーブル操作
-* `PlacementMapper.java`：placementsテーブル操作
-* `AdminMapper.java`：adminsテーブル操作
+* `StaffController.java`：作業員向けページのリクエストを処理
+* `TeamLoginController.java`：チーム(作業員)のログイン・ログアウト処理
+* `TeamRequestController.java`：チーム(作業員)向け申請ページのリクエスト処理
 
 ### domain パッケージ
 
-* `Item.java`：資材データクラス
-* `Room.java`：部屋データクラス
-* `Placement.java`：配置データクラス
 * `Admin.java`：管理者データクラス
+* `Item.java`：資材データクラス
+* `Placement.java`：配置データクラス
+* `Requset.java`：申請データクラス
+* `Room.java`：部屋データクラス
+* `Team.java`：チームデータクラス
 
 ### filter パッケージ
 
 * `AuthFilter.java`：ユーザー認証用フィルター
 
-### config パッケージ
+### mapper パッケージ
 
-* `ValidationConfig.java`：入力バリデーション設定
-* `FilterConfig.java`：認証フィルター設定
+* `AdminMapper.java`：adminsテーブル操作
+* `ItemMapper.java`：itemsテーブル操作
+* `PlacementMapper.java`：placementsテーブル操作
+* `RequestMapper.java`：requestsテーブル操作
+* `RoomMapper.java`：roomsテーブル操作
+* `TeamMapper.java`：teamsテーブル操作
+
+### service パッケージ
+
+* `AdminService.java`：管理者認証処理インターフェース
+* `AdminServiceImpl.java`：管理者認証処理実装
+* `ItemService.java`：資材操作インターフェース
+* `ItemServiceImpl.java`：資材操作実装
+* `RequestService.java`：申請操作インターフェース
+* `RequestServiceImpl.java`：申請操作実装
+* `RoomService.java`：部屋操作インターフェース
+* `RoomServiceImpl.java`：部屋操作実装
+* `TeamService.java`：チーム(作業員)認証処理インターフェース
+* `TeamServiceImpl.java`：チーム(作業員)認証処理実装
 
 ## resources 内
 
@@ -153,18 +165,13 @@ Kanri/
 
 ### templates フォルダ
 
-* 管理者：`index.html`, `add.html`, `edit.html`, `login.html`
-* 一般社員：`index.html`, `show.html`
-* 共通：`common.html`, `validation.properties`
+* admin：`add.html`, `edit.html`, `login.html`,`index.html`,`request-edit.html`,`request-list.html`
+* team：`index.html`, `login.html`,`request-from.html`,`show.html`
+* parts：`common.html`,
+
+*   `validation.properties`：バリデーションエラーメッセージを記入
 
 ## controller メソッド詳細
-
-### StaffController
-
-| メソッド  | 戻り値    | 引数                                             | 説明                   |
-| ----- | ------ | ---------------------------------------------- | -------------------- |
-| index | String | String roomId, Integer categoryId, Model model | 資材リスト表示。部屋/カテゴリで絞り込み |
-| show  | String | Integer id, Model model                        | 資材詳細表示               |
 
 ### AdminController
 
@@ -177,15 +184,54 @@ Kanri/
 | edit (POST) | String | Item item, Errors errors, Model model  | 資材編集処理            |
 | delete      | void   | Integer id                             | 資材削除処理            |
 
+### AdminRequestController
+
+| メソッド          | 戻り値    | 引数                                                                                             | 説明                     |
+| ------------- | ------ | ---------------------------------------------------------------------------------------------- | ---------------------- |
+| index         | String | Model model                                                                                    | 申請一覧表示（管理者画面）          |
+| edit (GET)    | String | @RequestParam("id") int id, Model model                                                        | 申請詳細画面の表示（承認または却下フォーム） |
+| edit (POST)   | String | @ModelAttribute Request request                                                                | 申請ステータス更新（承認または却下の処理）  |
+| deleteRequest | String | @RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes | 申請の削除処理と結果メッセージ設定      |
+
+
 ### LoginController
 
 | メソッド         | 戻り値    | 引数                                              | 説明        |
 | ------------ | ------ | ----------------------------------------------- | --------- |
 | login (GET)  | String | Model model                                     | ログインページ表示 |
 | login (POST) | String | Admin admin, Errors errors, HttpSession session | ログイン処理    |
-| logout       | void   | HttpSession session                             | ログアウト処理   |
+| logout       | void   |なし（HttpSessionはフィールドとして使用）                             | ログアウト処理   |
+
+### StaffController
+
+| メソッド  | 戻り値    | 引数                                             | 説明                   |
+| ----- | ------ | ---------------------------------------------- | -------------------- |
+| index | String | String roomId, Integer categoryId, Model model | 資材リスト表示。部屋/カテゴリで絞り込み |
+| show  | String | Integer id, Model model                        | 資材詳細表示               |
+
+
+### TeamLoginController
+
+| メソッド         | 戻り値    | 引数                              | 説明                  |
+| ------------ | ------ | ------------------------------- | ------------------- |
+| login (GET)  | String | Model model                     | ログインフォーム表示          |
+| login (POST) | String | @Valid Team team, Errors errors | ログイン認証処理（バリデーション含む） |
+| logout       | String | なし（HttpSessionはフィールドとして使用）      | ログアウト処理（セッション破棄）    |
+
+### TeamRequestController
+
+| メソッド     | 戻り値    | 引数                                                                      | 説明                 |
+| -------- | ------ | ----------------------------------------------------------------------- | ------------------ |
+| showForm | String | Model model                                                             | 申請フォームの表示          |
+| submit   | String | @Valid Request request, Errors errors, HttpSession session, Model model | 申請送信処理（バリデーション・登録） |
 
 ## service メソッド詳細
+
+### AdminService
+
+| メソッド  | 戻り値     | 引数                                                    | 説明      |
+| ----- | ------- | ----------------------------------------------------- | ------- |
+| login | boolean | String loginId, String loginPass, HttpSession session | 管理者認証処理 |
 
 ### ItemService
 
@@ -202,15 +248,22 @@ Kanri/
 
 ### RoomService
 
-| メソッド   | 戻り値        | 引数 | 説明    |
-| ------ | ---------- | -- | ----- |
-| getAll | List<Room> |    | 全部屋取得 |
+| メソッド        | 戻り値         | 引数            | 説明                     |
+| ----------- | ----------- | ------------- | ---------------------- |
+| getAll      | List\<Room> | なし            | 全ての部屋情報を取得           |
+| getNameById | String      | String roomId | 指定された部屋IDに対応する部屋名を取得 |
 
-### AdminService
+### RequestService
 
-| メソッド  | 戻り値     | 引数                                                    | 説明      |
-| ----- | ------- | ----------------------------------------------------- | ------- |
-| login | boolean | String loginId, String loginPass, HttpSession session | 管理者認証処理 |
+| メソッド名                 | 戻り値             | 引数                | 説明                    |
+| --------------------- | --------------- | ----------------- | --------------------- |
+| `create()`            | `void`          | `Request request` | 新しい申請データを登録           |
+| `getAll()`            | `List<Request>` | なし                | すべての申請データを取得          |
+| `getByTeamId()`       | `List<Request>` | `String teamId`   | 指定されたチームIDに紐づく申請一覧を取得 |
+| `getById()`           | `Request`       | `int id`          | 申請IDから1件の申請データを取得     |
+| `updateStatus()`      | `void`          | `Request request` | 申請の承認/却下など、ステータスを更新   |
+| `deleteRequestById()` | `void`          | `int id`          | 指定された申請IDの申請データを削除    |
+
 
 ## mapper メソッド詳細
 
