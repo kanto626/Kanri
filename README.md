@@ -103,20 +103,20 @@ Kanri/
 │   └── main/
 │       ├── java/
 │       │   └── com/example/app/
-│       │       ├── config/             # アプリ全体の設定クラス（認証、バリデーション設定など）
-│       │       ├── controller/         # HTTPリクエスト処理（画面とやりとり）
-│       │       ├── domain/             # テーブル対応のデータ保持クラス
-│       │       ├── filter/             # リクエストの前処理・後処理用フィルター
-│       │       ├── mapper/             # MyBatis用Mapperインターフェース
-│       │       ├── service/            # ビジネスロジック(業務処理、データ操作)を担当
-│       │       └── KanriApplication.java # アプリ起動クラス（mainメソッド）
+│       │       ├── config/             　 # アプリ全体の設定クラス（認証、バリデーション設定など）
+│       │       ├── controller/         　 # HTTPリクエスト処理（画面とやりとり）
+│       │       ├── domain/             　 # テーブル対応のデータ保持クラス
+│       │       ├── filter/             　 # リクエストの前処理・後処理用フィルター
+│       │       ├── mapper/             　 # MyBatis用Mapperインターフェース
+│       │       ├── service/             　# ビジネスロジック(業務処理、データ操作)を担当
+│       │       └── KanriApplication.java  # アプリ起動クラス（mainメソッド）
 │       └── resources/
-│           ├── mybatis/               # Mapper XMLファイル（SQL記述）
-│           ├── static/                # 静的リソース（CSS, JS, 画像など）
-│           ├── templates/             # HTMLテンプレート（Thymeleafなど）
-│           ├── application.properties # アプリケーション設定
-│           └── validation.properties  # バリデーションエラーメッセージ定義
-├── pom.xml                            # Mavenビルド設定・依存ライブラリ
+│           ├── mybatis/               　  # Mapper XMLファイル（SQL記述）
+│           ├── static/                　  # 静的リソース（CSS, JS, 画像など）
+│           ├── templates/             　  # HTMLテンプレート（Thymeleafなど）
+│           ├── application.properties 　  # アプリケーション設定
+│           └── validation.properties  　  # バリデーションエラーメッセージ定義
+├── pom.xml                            　  # Mavenビルド設定・依存ライブラリ
 ```
 
 
