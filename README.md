@@ -120,14 +120,14 @@ Kanri/
 ```
 
 
-## 📦 パッケージ構成（`com.example.app`）
+## パッケージ構成（`com.example.app`）
 
-### config パッケージ
+### ⚙️ config パッケージ
 
 * `ValidationConfig.java`：入力バリデーション設定
 * `FilterConfig.java`：認証フィルター設定
 
-### controller パッケージ
+### 🧭 controller パッケージ
 
 * `AdminController.java`：管理者向けページのリクエスト処理（登録・編集・削除）
 * `AdminRequestController.java`：管理者向け申請ページのリクエスト処理
@@ -136,7 +136,7 @@ Kanri/
 * `TeamLoginController.java`：チーム(作業員)のログイン・ログアウト処理
 * `TeamRequestController.java`：チーム(作業員)向け申請ページのリクエスト処理
 
-### domain パッケージ
+### 🏷️ domain パッケージ
 
 * `Admin.java`：管理者データクラス
 * `Item.java`：資材データクラス
@@ -145,11 +145,11 @@ Kanri/
 * `Room.java`：場所データクラス
 * `Team.java`：チームデータクラス
 
-### filter パッケージ
+### 🛡️ filter パッケージ
 
 * `AuthFilter.java`：ユーザー認証用フィルター
 
-### mapper パッケージ
+### 🗺️ mapper パッケージ
 
 * `AdminMapper.java`：adminsテーブル操作
 * `ItemMapper.java`：itemsテーブル操作
@@ -158,7 +158,7 @@ Kanri/
 * `RoomMapper.java`：roomsテーブル操作
 * `TeamMapper.java`：teamsテーブル操作
 
-### service パッケージ
+### 🛠️ service パッケージ
 
 * `AdminService.java`：管理者認証処理インターフェース
 * `AdminServiceImpl.java`：管理者認証処理実装
@@ -190,19 +190,52 @@ Kanri/
 
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
-## ⚙️ configクラス 詳細
+
+## アプリケーション構成図（MVC + DB連携)
+
+※ Controller → Thymeleaf 間で Model を介してデータを渡します。
+
+       ┌─────────────────┐
+       │     Client      │ ◀───────────────────────────┐
+       └───────┬─────────┘　　　　　             　     │
+               │ Request　　　　　　             　     │ response
+               ▼         　　　　　 　                  │
+       ┌──────────────┐   　　      　　　　　　  ┌─────┴───────┐
+       │  Controller  │ ーー▶ 〈 model 〉 ◀ーー　 │  Thymeleaf  │
+       └──────────────┘  ーーー forward ーーー▶   └─────────────┘
+               ▲
+               │ Calls
+               ▼
+       ┌──────────────┐   　　
+       │    Service   │ 
+       └──────────────┘ 
+               ▲
+               │ Uses Mapper
+               ▼
+       ┌──────────────┐   　　┌───────────┐
+       │    Mapper    │ ーー▶ │  MyBatis  │  
+       └──────────────┘   　　└─────┬─────┘
+               ▲　　　　　　　　　　　│
+               │                    │ SQL Access
+               │　　　　　　　　　　　▼
+         ╭───────────────────────────────╮
+         │    　　　 Database  　　　　　　│
+         ╰───────────────────────────────╯
+
+
+## ⚙️ config パッケージ詳細
 ### 共通アノテーション
 - @Configuration (Springの設定クラスを示す)
 - @Bean (設定クラス内のメソッドに付けることで、SpringのDIコンテナがそのメソッドの戻り値を管理する)
 
-### FilterConfig 概要
+### FilterConfig
 - 認証フィルター(AuthFilter)を有効化しつつ、特定のURLパターンに適用して認証制御を行うための設定
 
 | メソッド名          | 戻り値の型                                | 説明                                                   |
 | -------------- | ------------------------------------ | ---------------------------------------------------- |
 | `authFilter()` | `FilterRegistrationBean<AuthFilter>` | `/admin/*` と `/team/*` に対して `AuthFilter` を適用するフィルタ登録 |
 
-### ValidationConfig 概要
+### ValidationConfig
 - バリデーションメッセージをカスタマイズする設定クラス
 - validation.properties ファイルのメッセージを使用可能にするための設定
 
@@ -212,12 +245,12 @@ Kanri/
 | `messageSource()` | `ResourceBundleMessageSource` | `validation.properties` をメッセージソースとして登録            |
 
 
-## 🧭 controllerクラス 詳細
+## 🧭 controller パッケージ詳細
 ### 共通アノテーション 
 - @Controller (SpringにWebリクエストを処理するコントローラーとして認識させる)
 - @RequiredArgsConstructor (finalフィールドに対する引数を持つコンストラクタを自動生成)
 
-### AdminController 概要
+### AdminController
 - 管理者用資材管理画面を担当するコントローラー（`@RequestMapping("/admin")`）
 
 | フィールド名        | 型             | 説明                         |
@@ -236,7 +269,7 @@ Kanri/
 | `delete`      | `void`   | `Integer id`                              | 資材削除処理            |
 
 
-### AdminRequestController 概要
+### AdminRequestController
 - 管理者用の申請管理を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | フィールド名           | 型                | 説明                           |
@@ -251,7 +284,7 @@ Kanri/
 | `deleteRequest` | `String` | `@RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes` | 申請の削除処理と結果メッセージ設定      |
 
 
-### LoginController 概要
+### LoginController
 - 管理者のログイン・ログアウト機能を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | メソッド           | 戻り値      | 引数                                                | 説明        |
@@ -266,7 +299,7 @@ Kanri/
 | `show`  | `String` | `Integer id, Model model`                        | 資材詳細表示               |
 
 
-### TeamLoginController 概要
+### TeamLoginController
 - チーム用ログイン機能を担当するコントローラー（@RequestMapping("/team")）
 
 | フィールド名        | 型             | 説明                   |
@@ -281,7 +314,7 @@ Kanri/
 | `logout`       | `String` | `なし（HttpSessionはフィールドとして使用）`      | ログアウト処理（セッション破棄）    |
 
 
-### TeamRequestController 概要
+### TeamRequestController
 - チームメンバー向けの申請フォームと申請送信処理を担当するコントローラー
 
 | フィールド名           | 型                | 説明                     |
@@ -294,11 +327,11 @@ Kanri/
 | `submit`   | `String` | `@Valid Request request, Errors errors, HttpSession session, Model model` | 申請送信処理（バリデーション・登録） |
 
 
-## domainクラス 詳細
+## 🏷️ domain パッケージ詳細
 ### 共通アノテーション 
 - @Data (Javaクラスに必要な基本メソッド(アクセッサ等)を自動生成)
 
-### Admin.java (管理者)
+### Admin
 
 | フィールド       | 型         | 説明         |
 | ----------- | --------- | ---------- |
@@ -307,7 +340,7 @@ Kanri/
 | `loginPass` | `String`  | 暗号化済みパスワード |
 | `name`      | `String`  | 管理者名       |
 
-### Item.java (資材)
+### Item
 
 | フィールド         | 型         | 説明   |
 | ------------- | --------- | ---- |
@@ -317,7 +350,7 @@ Kanri/
 | `loginId`     | `String`  | 備考   |
 | `loginPass`   | `Integer` | 総数   |
 
-### Placement.java (配置)
+### Placement
 
 | フィールド    | 型         | 説明   |
 | -------- | --------- | ---- |
@@ -325,14 +358,14 @@ Kanri/
 | `room`   | `Room`    | 場所   |
 | `amount` | `Integer` | 配置数量 |
 
-### Room.java (場所)
+### Room
 
 | フィールド  | 型        | 説明   |
 | ------ | -------- | ---- |
 | `id`   | `String` | 場所ID |
 | `name` | `String` | 場所名  |
 
-### Request.java (申請)
+### Request
 
 | フィールド          | 型               | 説明                                      |
 | -------------- | --------------- | --------------------------------------- |
@@ -344,7 +377,7 @@ Kanri/
 | `responseNote` | `String`        | 管理者からの返信メモ                              |
 | `requestedAt`  | `LocalDateTime` | 申請日時                                    |
 
-### Team.java
+### Team
 
 | フィールド       | 型        | 説明               |
 | ----------- | -------- | ---------------- |
@@ -353,8 +386,8 @@ Kanri/
 | `loginPass` | `String` | ログインパスワード（必須）    |
 | `name`      | `String` | チーム名             |
 
-
-## 🛡️ AuthFilter 概要
+## 🛡️ filter パッケージ詳細
+###  AuthFilter
 - 管理者・チームユーザーの認証チェックを行うフィルター
 
 | メソッド       | 説明                            |
@@ -362,7 +395,7 @@ Kanri/
 | `doFilter` | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
 
 
-## 🗺️　mapperクラス 詳細
+## 🗺️　mapper パッケージ詳細
 ### 共通アノテーション 
 - @Mapper (MyBatisのMapperインターフェースとしてSpringに認識させる)
 
@@ -417,13 +450,13 @@ Kanri/
 | `selectByTeamId` | `Team` | `String id` | IDを元にチーム情報を取得 |
 
 
-## 🛠️ serviceクラス 詳細
+## 🛠️ service パッケージ詳細
 ### 共通アノテーション
 - @Service (ビジネスロジックを実装するサービスクラスとしてSpringに認識させる)
 - @Transactional (メソッド内の処理を一括してトランザクション管理する)
 - @RequiredArgsConstructor (finalフィールドに対する引数を持つコンストラクタを自動生成)
 
-### AdminService　概要
+### AdminService
 - 管理者のログイン認証を行うサービス
 - 主な機能：ログイン情報の検証、認証成功時にセッションへ情報格納
 
@@ -431,7 +464,7 @@ Kanri/
 | ------- | --------- | ------------------------------------------------------- | ------- |
 | `login` | `boolean` | `String loginId, String loginPass, HttpSession session` | 管理者認証処理 |
 
-### ItemService　概要
+### ItemService
 - 資材（Item）の取得、登録、更新、削除を扱うサービス
 - 主な機能：資材情報の管理全般、ページ制御、検索、分類表示
 
@@ -455,7 +488,7 @@ Kanri/
 | `getByCategory`                  | `List<Item>` | `String category, Integer page`  | カテゴリ指定＋ページ番号で資材リストを取得     |
 | `getTotalPagesByCategory`        | `int`        | `String category`                | カテゴリ指定で資材の総ページ数を取得        |
 
-## 🛠️ RequestService　概要
+### RequestService
 - 申請（Request）の新規登録・取得・ステータス更新・削除を行うサービス
 - 主な機能：チーム別・全体の申請表示、承認処理、削除処理
 
@@ -469,7 +502,7 @@ Kanri/
 | `deleteRequestById` | `void`          | `int id`          | ID指定で申請を削除      |
 
 
-## 🛠️ RoomService　概要
+### RoomService
 - 部屋情報（Room）の取得を行うサービス
 - 主な機能：部屋の一覧取得、IDから部屋名を取得
 
@@ -478,7 +511,7 @@ Kanri/
 | `getAll`      | `List<Room>` | `なし`            | 全ての部屋情報を取得           |
 | `getNameById` | `String`     | `String roomId` | 指定された部屋IDに対応する部屋名を取得 |
 
-## 🛠️ TeamService　概要
+### TeamService
 - チームのログイン認証を行うサービス
 - 主な機能：ID・パスワードの検証、認証成功時のセッション設定
 
