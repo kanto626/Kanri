@@ -191,7 +191,7 @@ Kanri/
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
 ## ⚙️ configクラス 詳細
-###共通アノテーション
+### 共通アノテーション
 - @Configuration (Springの設定クラスを示す)
 - @Bean (設定クラス内のメソッドに付けることで、SpringのDIコンテナがそのメソッドの戻り値を管理する)
 
@@ -213,7 +213,7 @@ Kanri/
 
 
 ## 🧭 controllerクラス 詳細
-###共通アノテーション 
+### 共通アノテーション 
 - @Controller (SpringにWebリクエストを処理するコントローラーとして認識させる)
 - @RequiredArgsConstructor (finalフィールドに対する引数を持つコンストラクタを自動生成)
 
@@ -363,7 +363,7 @@ Kanri/
 
 
 ## 🗺️　mapperクラス 詳細
-###共通アノテーション 
+### 共通アノテーション 
 - @Mapper (MyBatisのMapperインターフェースとしてSpringに認識させる)
 
 ### AdminMapper
