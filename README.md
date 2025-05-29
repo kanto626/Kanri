@@ -105,10 +105,10 @@ Kanri/
 │       │   └── com/example/app/
 │       │       ├── config/             # アプリ全体の設定クラス（認証、バリデーション設定など）
 │       │       ├── controller/         # HTTPリクエスト処理（画面とやりとり）
-│       │       ├── domain/             # ドメインモデル（エンティティ）
+│       │       ├── domain/             # テーブル対応のデータ保持クラス
 │       │       ├── filter/             # リクエストの前処理・後処理用フィルター
 │       │       ├── mapper/             # MyBatis用Mapperインターフェース
-│       │       ├── service/            # ビジネスロジックを担当
+│       │       ├── service/            # ビジネスロジック(業務処理、データ操作)を担当
 │       │       └── KanriApplication.java # アプリ起動クラス（mainメソッド）
 │       └── resources/
 │           ├── mybatis/               # Mapper XMLファイル（SQL記述）
@@ -142,7 +142,7 @@ Kanri/
 * `Item.java`：資材データクラス
 * `Placement.java`：配置データクラス
 * `Requset.java`：申請データクラス
-* `Room.java`：部屋データクラス
+* `Room.java`：場所データクラス
 * `Team.java`：チームデータクラス
 
 ### filter パッケージ
@@ -190,8 +190,32 @@ Kanri/
 
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
+## ⚙️ configクラス 詳細
+###共通アノテーション
+- @Configuration (Springの設定クラスを示す)
+- @Bean (設定クラス内のメソッドに付けることで、SpringのDIコンテナがそのメソッドの戻り値を管理する)
 
-## 🧭 AdminController 概要
+### FilterConfig 概要
+- 認証フィルター(AuthFilter)を有効化しつつ、特定のURLパターンに適用して認証制御を行うための設定
+| メソッド名          | 戻り値の型                                | 説明                                                   |
+| -------------- | ------------------------------------ | ---------------------------------------------------- |
+| `authFilter()` | `FilterRegistrationBean<AuthFilter>` | `/admin/*` と `/team/*` に対して `AuthFilter` を適用するフィルタ登録 |
+
+### ValidationConfig 概要
+- バリデーションメッセージをカスタマイズする設定クラス
+- validation.properties ファイルのメッセージを使用可能にするための設定
+| メソッド名             | 戻り値の型                         | 説明                                                |
+| ----------------- | ----------------------------- | ------------------------------------------------- |
+| `getValidator()`  | `Validator`                   | `LocalValidatorFactoryBean` を返し、カスタムメッセージソースを設定する |
+| `messageSource()` | `ResourceBundleMessageSource` | `validation.properties` をメッセージソースとして登録            |
+
+
+## 🧭 controllerクラス 詳細
+###共通アノテーション 
+- @Controller (SpringにWebリクエストを処理するコントローラーとして認識させる)
+- @RequiredArgsConstructor (finalフィールドに対する引数を持つコンストラクタを自動生成)
+
+### AdminController 概要
 - 管理者用資材管理画面を担当するコントローラー（`@RequestMapping("/admin")`）
 
 | フィールド名        | 型             | 説明                         |
@@ -210,7 +234,7 @@ Kanri/
 | `delete`      | `void`   | `Integer id`                              | 資材削除処理            |
 
 
-## 🧭 AdminRequestController 概要
+### AdminRequestController 概要
 - 管理者用の申請管理を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | フィールド名           | 型                | 説明                           |
@@ -225,7 +249,7 @@ Kanri/
 | `deleteRequest` | `String` | `@RequestParam(name = "id", required = false) Integer id, RedirectAttributes redirectAttributes` | 申請の削除処理と結果メッセージ設定      |
 
 
-## 🧭 LoginController 概要
+### LoginController 概要
 - 管理者のログイン・ログアウト機能を担当するコントローラー（@RequestMapping("/admin/request")）
 
 | メソッド           | 戻り値      | 引数                                                | 説明        |
@@ -240,7 +264,7 @@ Kanri/
 | `show`  | `String` | `Integer id, Model model`                        | 資材詳細表示               |
 
 
-## 🧭 TeamLoginController 概要
+### TeamLoginController 概要
 - チーム用ログイン機能を担当するコントローラー（@RequestMapping("/team")）
 
 | フィールド名        | 型             | 説明                   |
@@ -255,7 +279,7 @@ Kanri/
 | `logout`       | `String` | `なし（HttpSessionはフィールドとして使用）`      | ログアウト処理（セッション破棄）    |
 
 
-## 🧭 TeamRequestController 概要
+### TeamRequestController 概要
 - チームメンバー向けの申請フォームと申請送信処理を担当するコントローラー
 
 | フィールド名           | 型                | 説明                     |
@@ -268,9 +292,11 @@ Kanri/
 | `submit`   | `String` | `@Valid Request request, Errors errors, HttpSession session, Model model` | 申請送信処理（バリデーション・登録） |
 
 
-## domain クラス定義
+## domainクラス 詳細
+### 共通アノテーション 
+- @Data (Javaクラスに必要な基本メソッド(アクセッサ等)を自動生成)
 
-### Admin.java
+### Admin.java (管理者)
 
 | フィールド       | 型         | 説明         |
 | ----------- | --------- | ---------- |
@@ -279,7 +305,7 @@ Kanri/
 | `loginPass` | `String`  | 暗号化済みパスワード |
 | `name`      | `String`  | 管理者名       |
 
-### Item.java
+### Item.java (資材)
 
 | フィールド         | 型         | 説明   |
 | ------------- | --------- | ---- |
@@ -289,7 +315,7 @@ Kanri/
 | `loginId`     | `String`  | 備考   |
 | `loginPass`   | `Integer` | 総数   |
 
-### Placement.java
+### Placement.java (配置)
 
 | フィールド    | 型         | 説明   |
 | -------- | --------- | ---- |
@@ -297,14 +323,14 @@ Kanri/
 | `room`   | `Room`    | 場所   |
 | `amount` | `Integer` | 配置数量 |
 
-### Room.java
+### Room.java (場所)
 
 | フィールド  | 型        | 説明   |
 | ------ | -------- | ---- |
 | `id`   | `String` | 場所ID |
 | `name` | `String` | 場所名  |
 
-### Request.java
+### Request.java (申請)
 
 | フィールド          | 型               | 説明                                      |
 | -------------- | --------------- | --------------------------------------- |
@@ -334,7 +360,9 @@ Kanri/
 | `doFilter` | 管理者・社員を判別し、未認証時にログイン画面へリダイレクト |
 
 
-## mapper メソッド詳細
+## 🗺️　mapperクラス 詳細
+###共通アノテーション 
+- @Mapper (MyBatisのMapperインターフェースとしてSpringに認識させる)
 
 ### AdminMapper
 
@@ -387,7 +415,13 @@ Kanri/
 | `selectByTeamId` | `Team` | `String id` | IDを元にチーム情報を取得 |
 
 
-## 🛠️ AdminService　概要
+## 🛠️ serviceクラス 詳細
+### 共通アノテーション
+- @Service (ビジネスロジックを実装するサービスクラスとしてSpringに認識させる)
+- @Transactional (メソッド内の処理を一括してトランザクション管理する)
+- @RequiredArgsConstructor (finalフィールドに対する引数を持つコンストラクタを自動生成)
+
+### AdminService　概要
 - 管理者のログイン認証を行うサービス
 - 主な機能：ログイン情報の検証、認証成功時にセッションへ情報格納
 
@@ -395,8 +429,7 @@ Kanri/
 | ------- | --------- | ------------------------------------------------------- | ------- |
 | `login` | `boolean` | `String loginId, String loginPass, HttpSession session` | 管理者認証処理 |
 
-
-## 🛠️ ItemService　概要
+### ItemService　概要
 - 資材（Item）の取得、登録、更新、削除を扱うサービス
 - 主な機能：資材情報の管理全般、ページ制御、検索、分類表示
 
