@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class LoginController {
+public class AdminLoginController {
 
 	private final AdminService adminService;
 	private final HttpSession session;
@@ -34,18 +34,29 @@ public class LoginController {
 		// 入力に不備がある
 		if (errors.hasErrors()) {
 			return "admin/login";
-		} else if (!adminService.login(admin.getLoginId(), admin.getLoginPass(), session)) {
-			// ログインID、またはパスワードが間違っている
+		}
+
+		String loginId = admin.getLoginId();
+		String loginPass = admin.getLoginPass();
+		Admin adminInfo = adminService.login(loginId, loginPass);
+
+
+		// ログイン ID・パスワードが正しくない
+		if (adminInfo == null) {
 			errors.rejectValue("loginId", "wrong_id_or_password");
 			return "admin/login";
 		}
-
+		// ⇒ セッションにログインIDと名前を格納し、リダイレクト
+		session.setAttribute("adminId", loginId);
+		session.setAttribute("name", adminInfo.getName());
+		
 		// ログイン成功
 		return "redirect:/admin";
 	}
 
 	@GetMapping("/logout")
 	public String logout() {
+		// セッションを破棄し、ログインページへ遷移
 		session.invalidate();
 		return "redirect:/admin/login";
 	}
