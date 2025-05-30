@@ -38,14 +38,18 @@ public class AdminLoginController {
 
 		String loginId = admin.getLoginId();
 		String loginPass = admin.getLoginPass();
+		Admin adminInfo = adminService.login(loginId, loginPass);
+
 
 		// ログイン ID・パスワードが正しくない
-		if (!adminService.login(loginId, loginPass)) {
+		if (adminInfo == null) {
 			errors.rejectValue("loginId", "wrong_id_or_password");
 			return "admin/login";
 		}
-		// ⇒ セッションにログイン ID を格納し、リダイレクト
+		// ⇒ セッションにログインIDと名前を格納し、リダイレクト
 		session.setAttribute("adminId", loginId);
+		session.setAttribute("name", adminInfo.getName());
+		
 		// ログイン成功
 		return "redirect:/admin";
 	}

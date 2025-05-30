@@ -17,22 +17,22 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminMapper adminMapper;
 
 	@Override
-	public boolean login(String loginId, String loginPass) {
+	public Admin login(String loginId, String loginPass) {
 
 		Admin admin = adminMapper.selectByLoginId(loginId);
 
 		// ログイン ID が正しいかチェック
 		// ⇒ ログイン ID が正しくなければ、管理者データは取得されない
 		if (admin == null) {
-			return false;
+			return null;
 		}
 		
 		// パスワードが正しいかチェック
 		if (!BCrypt.checkpw(loginPass, admin.getLoginPass())) { 
-			return false;
+			return null;
 		}
 		// ログインID・パスワードが正しい
-		return true;
+		return admin;
 	}
 
 }
