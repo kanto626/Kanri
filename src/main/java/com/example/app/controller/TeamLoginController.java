@@ -34,12 +34,18 @@ public class TeamLoginController {
 		// 入力に不備がある
 		if (errors.hasErrors()) {
 			return "team/login";
-		} else if (!teamService.login(team.getId(), team.getLoginPass(), session)) {
+
+		}
+		String loginId = team.getId();
+		String loginPass = team.getLoginPass();
+
+		// ログイン ID・パスワードが正しくない
+		if (!teamService.login(loginId, loginPass)) {
 			// ログインID、またはパスワードが間違っている
 			errors.rejectValue("id", "wrong_id_or_password");
 			return "team/login";
 		}
-
+		session.setAttribute("teamId", loginId);
 		// ログイン成功
 		return "redirect:/team";
 	}
