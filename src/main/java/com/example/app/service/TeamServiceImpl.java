@@ -8,6 +8,7 @@ import com.example.app.domain.Team;
 import com.example.app.mapper.TeamMapper;
 
 import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -16,20 +17,20 @@ public class TeamServiceImpl implements TeamService {
 	private final TeamMapper teamMapper;
 
 	@Override
-	public boolean login(String id, String loginPass) {
-		
+	public Team login(String id, String loginPass) {
+
 		Team team = teamMapper.selectByTeamId(id);
-		
+
 		// ログイン ID が正しいかチェック
 		// ⇒ ログイン ID が正しくなければ、チームのデータは取得されない
 		if (team == null) {
-			return false;
+			return null;
 		}
 		// パスワードが正しいかチェック
 		if (!BCrypt.checkpw(loginPass, team.getLoginPass())) {
-			return false;
+			return null;
 		}
 		// ログインID・パスワードが正しい
-		return true;
+		return team;
 	}
 }
