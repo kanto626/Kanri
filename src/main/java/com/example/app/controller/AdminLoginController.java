@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class LoginController {
+public class AdminLoginController {
 
 	private final AdminService adminService;
 	private final HttpSession session;
