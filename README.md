@@ -191,36 +191,7 @@ Kanri/
 *   `validation.properties`：バリデーションエラーメッセージを記入
 
 
-## アプリケーション構成図（MVC + DB連携)
-
-※ Controller → Thymeleaf 間で Model を介してデータを渡します。
-
-       ┌─────────────────┐
-       │     Client      │ ◀───────────────────────────┐
-       └───────┬─────────┘　　　　　             　     │
-               │ Request　　　　　　             　     │ response
-               ▼         　　　　　 　                  │
-       ┌──────────────┐   　　      　　　　　　  ┌─────┴───────┐
-       │  Controller  │ ーー▶ 〈 model 〉 ◀ーー　 │  Thymeleaf  │
-       └──────────────┘  ーーー forward ーーー▶   └─────────────┘
-               ▲
-               │ Calls
-               ▼
-       ┌──────────────┐   　　
-       │    Service   │ 
-       └──────────────┘ 
-               ▲
-               │ Uses Mapper
-               ▼
-       ┌──────────────┐   　　┌───────────┐
-       │    Mapper    │ ーー▶ │  MyBatis  │  
-       └──────────────┘   　　└─────┬─────┘
-               ▲　　　　　　　　　　　│
-               │                    │ SQL Access
-               │　　　　　　　　　　　▼
-         ╭───────────────────────────────╮
-         │    　　　 Database  　　　　　　│
-         ╰───────────────────────────────╯
+![Client （ブラウザ）](https://github.com/user-attachments/assets/d8a2831a-6656-4d81-86a7-ea05965c755c)
 
 
 ## ⚙️ config パッケージ詳細
