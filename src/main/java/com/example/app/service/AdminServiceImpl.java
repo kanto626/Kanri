@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.app.domain.Admin;
 import com.example.app.mapper.AdminMapper;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,22 +17,21 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminMapper adminMapper;
 
 	@Override
-	public boolean login(String loginId, String loginPass, HttpSession session) {
+	public boolean login(String loginId, String loginPass) {
 
 		Admin admin = adminMapper.selectByLoginId(loginId);
 
-		// ログインIDに該当する管理者がいない
+		// ログイン ID が正しいかチェック
+		// ⇒ ログイン ID が正しくなければ、管理者データは取得されない
 		if (admin == null) {
 			return false;
 		}
-		// パスワードが異なる
-		if (!BCrypt.checkpw(loginPass, admin.getLoginPass())) {
+		
+		// パスワードが正しいかチェック
+		if (!BCrypt.checkpw(loginPass, admin.getLoginPass())) { 
 			return false;
 		}
 		// ログインID・パスワードが正しい
-		// ⇒ 管理者氏名とIDをセッションに格納
-		session.setAttribute("name", admin.getName());
-		session.setAttribute("adminId", admin.getLoginId());
 		return true;
 	}
 
