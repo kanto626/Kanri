@@ -6,12 +6,11 @@ selects.forEach((select) => {
   });
 });
 
-const selectedRoomId = /*[[${roomId}]]*/ 'ALL';
-
 // クリックで選択(ハイライト)＆ roomId + category を維持して遷移
 
 const areas = document.querySelectorAll('.area');
-const currentCategory = document.querySelector('select[name="category"]').value;
+
+
 
 if (selectedRoomId !== 'ALL') {
   const selectedArea = document.querySelector(
