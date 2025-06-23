@@ -127,14 +127,13 @@
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 	<script>
 		// select要素変更時に送信処理
-		document.addEventListener("DOMContentLoaded", function () {
 			const selects = document.querySelectorAll('select');
 			selects.forEach(select => {
 				select.addEventListener('change', function () {
 					this.form.submit();
 				});
 			});
-		});
+	
 	</script>
 	<script th:inline="javascript">
 		const selectedRoomId = /*[[${roomId}]]*/ "ALL";
