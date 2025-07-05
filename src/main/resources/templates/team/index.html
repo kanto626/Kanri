@@ -125,48 +125,11 @@
 	</div>
 
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-	<script>
-		// select要素変更時に送信処理
-		document.addEventListener("DOMContentLoaded", function () {
-			const selects = document.querySelectorAll('select');
-			selects.forEach(select => {
-				select.addEventListener('change', function () {
-					this.form.submit();
-				});
-			});
-		});
-	</script>
 	<script th:inline="javascript">
 		const selectedRoomId = /*[[${roomId}]]*/ "ALL";
+		const currentCategory = /*[[${category}]]*/ "ALL";
 	</script>
-
-	<script>
-		// クリックで選択（ハイライト）＆ roomId + category を維持して遷移
-		document.addEventListener("DOMContentLoaded", function () {
-			const areas = document.querySelectorAll('.area');
-			const currentCategory = document.querySelector('select[name="category"]').value;
-
-			if (selectedRoomId !== "ALL") {
-				const selectedArea = document.querySelector(`.area[data-room="${selectedRoomId}"]`);
-				if (selectedArea) {
-					selectedArea.classList.add("selected");
-				}
-			}
-
-			areas.forEach(area => {
-				area.addEventListener('click', () => {
-					areas.forEach(a => a.classList.remove('selected'));
-					area.classList.add('selected');
-
-					const roomId = area.dataset.room;
-					// roomId + 現在のcategoryをURLに渡す
-					window.location.href = `/team?roomId=${roomId}&category=${currentCategory}`;
-				});
-			});
-		});
-	</script>
-
-
+	<script th:src="@{/js/team-page.js}"></script>
 </body>
 
 </html>

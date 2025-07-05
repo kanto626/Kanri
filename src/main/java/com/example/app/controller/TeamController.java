@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 
 // 一般社員用ページと連携するコントローラ
-public class StaffController {
+public class TeamController {
 
 	private final ItemService itemService;
 	private final RoomService roomService;
