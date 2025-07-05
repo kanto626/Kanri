@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 
-
 // 一般社員用ページと連携するコントローラ
 public class TeamController {
 
